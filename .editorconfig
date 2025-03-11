@@ -8,6 +8,12 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+<<<<<<< HEAD
+[*.{js,jsx}]
+indent_size = 2
+
+=======
+>>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
 [*.md]
 trim_trailing_whitespace = false
 

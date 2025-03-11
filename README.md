@@ -1,3 +1,34 @@
+<<<<<<< HEAD
+# Laravel 11 + React SPA Project
+A simple project management application using Laravel 11 and React.
+
+The project was developed for [the following](https://youtu.be/VrQRa-afCAk) YouTube tutorial.
+
+## Features
+1. Registration & Login
+2. Projects CRUD with sorting, filtering and pagination
+3. Tasks CRUD with sorting, filtering and pagination
+4. Create Tasks inside project
+5. Show all tasks or show tasks for a specific project
+6. Assign users to tasks
+7. View Tasks assigned to me
+8. Show dashboard with overview information
+
+## Installation
+1. Clone the project
+2. Navigate to the project's root directory using terminal
+3. Create `.env` file - `cp .env.example .env`
+4. Execute `composer install`
+5. Execute `npm install`
+6. Set application key - `php artisan key:generate --ansi`
+7. Execute migrations and seed data - `php artisan migrate --seed`
+8. Start vite server - `npm run dev`
+9. Start Artisan server - `php artisan serve`
+
+## Demo
+Coming soon...
+
+=======
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
@@ -64,3 +95,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+>>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
