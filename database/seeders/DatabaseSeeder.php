@@ -2,7 +2,10 @@
 
 namespace Database\Seeders;
 
+<<<<<<< HEAD
 use App\Models\Project;
+=======
+>>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -17,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
+<<<<<<< HEAD
             'id' => 1,
             'name' => 'Zura',
             'email' => 'zura@example.com',
@@ -35,5 +39,10 @@ class DatabaseSeeder extends Seeder
             ->count(30)
             ->hasTasks(30)
             ->create();
+=======
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
+>>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
     }
 }
