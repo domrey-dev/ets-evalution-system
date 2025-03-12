@@ -1,8 +1,11 @@
 <?php
 
-<<<<<<< HEAD
+namespace Tests\Feature\Auth;
+
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
+use Tests\TestCase;
 
 test('password can be updated', function () {
     $user = User::factory()->create();
@@ -39,13 +42,7 @@ test('correct password must be provided to update password', function () {
         ->assertSessionHasErrors('current_password')
         ->assertRedirect('/profile');
 });
-=======
-namespace Tests\Feature\Auth;
 
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Hash;
-use Tests\TestCase;
 
 class PasswordUpdateTest extends TestCase
 {
@@ -89,4 +86,3 @@ class PasswordUpdateTest extends TestCase
             ->assertRedirect('/profile');
     }
 }
->>>>>>> df8059f90f580f33f75bfd1471413ea02080d777

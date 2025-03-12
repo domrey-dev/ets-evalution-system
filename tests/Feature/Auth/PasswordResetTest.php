@@ -1,9 +1,12 @@
 <?php
 
-<<<<<<< HEAD
+namespace Tests\Feature\Auth;
+
 use App\Models\User;
 use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');
@@ -57,14 +60,7 @@ test('password can be reset with valid token', function () {
         return true;
     });
 });
-=======
-namespace Tests\Feature\Auth;
 
-use App\Models\User;
-use Illuminate\Auth\Notifications\ResetPassword;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Notification;
-use Tests\TestCase;
 
 class PasswordResetTest extends TestCase
 {
@@ -129,4 +125,3 @@ class PasswordResetTest extends TestCase
         });
     }
 }
->>>>>>> df8059f90f580f33f75bfd1471413ea02080d777

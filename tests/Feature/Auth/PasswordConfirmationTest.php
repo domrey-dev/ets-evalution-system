@@ -1,7 +1,9 @@
 <?php
+namespace Tests\Feature\Auth;
 
-<<<<<<< HEAD
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 test('confirm password screen can be rendered', function () {
     $user = User::factory()->create();
@@ -31,12 +33,6 @@ test('password is not confirmed with invalid password', function () {
 
     $response->assertSessionHasErrors();
 });
-=======
-namespace Tests\Feature\Auth;
-
-use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class PasswordConfirmationTest extends TestCase
 {
@@ -74,4 +70,3 @@ class PasswordConfirmationTest extends TestCase
         $response->assertSessionHasErrors();
     }
 }
->>>>>>> df8059f90f580f33f75bfd1471413ea02080d777

@@ -22,11 +22,7 @@ class LoginRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-<<<<<<< HEAD
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
-=======
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
->>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
      */
     public function rules(): array
     {
@@ -84,10 +80,6 @@ class LoginRequest extends FormRequest
      */
     public function throttleKey(): string
     {
-<<<<<<< HEAD
         return Str::transliterate(Str::lower($this->input('email')).'|'.$this->ip());
-=======
-        return Str::transliterate(Str::lower($this->string('email')).'|'.$this->ip());
->>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
     }
 }

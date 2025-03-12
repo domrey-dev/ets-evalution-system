@@ -1,6 +1,10 @@
 <?php
 
-<<<<<<< HEAD
+namespace Tests\Feature\Auth;
+
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
 test('registration screen can be rendered', function () {
     $response = $this->get('/register');
 
@@ -18,11 +22,6 @@ test('new users can register', function () {
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
 });
-=======
-namespace Tests\Feature\Auth;
-
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
@@ -48,4 +47,3 @@ class RegistrationTest extends TestCase
         $response->assertRedirect(route('dashboard', absolute: false));
     }
 }
->>>>>>> df8059f90f580f33f75bfd1471413ea02080d777
