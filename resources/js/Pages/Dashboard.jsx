@@ -22,7 +22,7 @@ export default function Dashboard({
       }
     >
       <Head title="Dashboard" />
-
+  
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-2">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
