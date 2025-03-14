@@ -22,13 +22,34 @@ export default function Dashboard({
       }
     >
       <Head title="Dashboard" />
-  
+      <h1>H</h1>
       <div className="py-12">
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-3 gap-2">
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-5 gap-2">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <h3 className="text-amber-500 text-2xl font-semibold">
-                Pending Tasks
+                Total
+              </h3>
+              <p className="text-xl mt-4">
+                <span className="mr-2">{myPendingTasks}</span>
+              </p>
+            </div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900 dark:text-gray-100">
+              <h3 className="text-amber-500 text-2xl font-semibold">
+                Completed
+              </h3>
+              <p className="text-xl mt-4">
+                <span className="mr-2">{myPendingTasks}</span>/
+                <span className="ml-2">{totalPendingTasks}</span>
+              </p>
+            </div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900 dark:text-gray-100">
+              <h3 className="text-amber-500 text-2xl font-semibold">
+                Incompleted
               </h3>
               <p className="text-xl mt-4">
                 <span className="mr-2">{myPendingTasks}</span>/
@@ -39,7 +60,7 @@ export default function Dashboard({
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <h3 className="text-blue-500 text-2xl font-semibold">
-                In Progress Tasks
+                New Staff
               </h3>
               <p className="text-xl mt-4">
                 <span className="mr-2">{myProgressTasks}</span>/
@@ -50,7 +71,7 @@ export default function Dashboard({
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <h3 className="text-green-500 text-2xl font-semibold">
-                Completed Tasks
+                Resing Staff
               </h3>
               <p className="text-xl mt-4">
                 <span className="mr-2">{myCompletedTasks}</span>/
