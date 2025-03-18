@@ -4,15 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
-class EvalutionFormController extends Controller
+use App\Models\StaffEvaluation;
+class EvaluationFormController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data = StaffEvaluation::all();
+        return response()->json($data, 200);
     }
 
     /**
@@ -20,7 +21,18 @@ class EvalutionFormController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'evaluation_title' => 'required',
+            'evaluation_description' => 'required',
+            'evaluation_status' => 'required',
+
+        ]);
+        $data = StaffEvaluation::creat([
+            "evaluation_title"=>request('evaluation_title'),
+            "evaluation_description"=>request('evaluation_description'),
+            "evaluation_status"=>request('evaluation_status'),
+        ]);
+        return response()->json([$data]);
     }
 
     /**
