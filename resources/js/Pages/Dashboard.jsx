@@ -22,7 +22,7 @@ export default function Dashboard({
       }
     >
       <Head title="Dashboard" />
-      <h1>H</h1>
+      <h1>Implement heare</h1>
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-5 gap-2">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -80,27 +80,32 @@ export default function Dashboard({
             </div>
           </div>
         </div>
+        <div>
+          <h1>Implement Graph</h1>
+        </div>
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
               <h3 className="text-gray-200 text-xl font-semibold">
-                My Active Tasks
+                Staff Evalution Tracking
               </h3>
 
-              <table className="mt-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <table className=" flex flex-col mt-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
-                  <tr>
-                    <th className="px-3 py-3">ID</th>
-                    <th className="px-3 py-3">Project Name</th>
-                    <th className="px-3 py-3">Name</th>
+                  <tr className=" flex justify-around">
+                    <th className="px-3 py-3">IMP-ID</th>
+                    <th className="px-3 py-3">Staff Name</th>
+                    <th className="px-3 py-3">Department</th>
+                    <th className="px-3 py-3">Postion</th>
+                    <th className="px-3 py-3">Work Contrack</th>
                     <th className="px-3 py-3">Status</th>
                     <th className="px-3 py-3">Due Date</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {activeTasks.data.map((task) => (
+                  {activeTasks.data.slice(0,7).map((task) => (
                     <tr key={task.id}>
-                      <td className="px-3 py-2">{task.id}</td>
+                      <td className="px-3 py-2 text-center">{task.id}</td>
                       <td className="px-3 py-2 text-white hover:underline">
                         <Link href={route("project.show", task.project.id)}>
                           {task.project.name}

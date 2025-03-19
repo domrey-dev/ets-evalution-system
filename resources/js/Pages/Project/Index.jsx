@@ -54,7 +54,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Projects
+            Staff
           </h2>
           <Link
             href={route("project.create")}
@@ -86,9 +86,9 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         sort_direction={queryParams.sort_direction}
                         sortChanged={sortChanged}
                       >
-                        ID
+                        EMP-ID
                       </TableHeading>
-                      <th className="px-3 py-3">Image</th>
+             
                       <TableHeading
                         name="name"
                         sort_field={queryParams.sort_field}
@@ -97,7 +97,54 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       >
                         Name
                       </TableHeading>
-
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
+                        Phone Number
+                      </TableHeading>
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
+                        Work Contract
+                      </TableHeading>
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
+                       Sex
+                      </TableHeading>
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
+                        Position
+                      </TableHeading>
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
+                        Department
+                      </TableHeading>
+                      <TableHeading
+                        name="name"
+                        sort_field={queryParams.sort_field}
+                        sort_direction={queryParams.sort_direction}
+                        sortChanged={sortChanged}
+                      >
+                        Project
+                      </TableHeading>
                       <TableHeading
                         name="status"
                         sort_field={queryParams.sort_field}
@@ -106,25 +153,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       >
                         Status
                       </TableHeading>
-
-                      <TableHeading
-                        name="created_at"
-                        sort_field={queryParams.sort_field}
-                        sort_direction={queryParams.sort_direction}
-                        sortChanged={sortChanged}
-                      >
-                        Create Date
-                      </TableHeading>
-
-                      <TableHeading
-                        name="due_date"
-                        sort_field={queryParams.sort_field}
-                        sort_direction={queryParams.sort_direction}
-                        sortChanged={sortChanged}
-                      >
-                        Due Date
-                      </TableHeading>
-                      <th className="px-3 py-3">Created By</th>
                       <th className="px-3 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
@@ -170,9 +198,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
-                        <td className="px-3 py-2">
-                          <img src={project.image_path} style={{ width: 60 }} />
-                        </td>
                         <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
                           <Link href={route("project.show", project.id)}>
                             {project.name}
