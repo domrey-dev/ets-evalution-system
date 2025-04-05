@@ -1,6 +1,0 @@
-@echo off
-echo Creating Laravel 11 project...
-docker-compose run --rm app composer create-project laravel/laravel="^11.0" .
-echo Setting proper permissions...
-docker-compose exec app chown -R www:www /var/www
-echo Laravel 11 installed successfully!

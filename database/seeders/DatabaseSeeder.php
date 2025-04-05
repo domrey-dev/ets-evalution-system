@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Project;
+use App\Models\Staff;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory()->create([
             'id' => 2,
-            'name' => 'John Smith',
+            'name' => 'ETS',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('admin123'),
             'email_verified_at' => time()

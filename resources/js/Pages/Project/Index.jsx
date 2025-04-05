@@ -234,6 +234,18 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                             Delete
                           </button>
                         </td>
+                        <td>
+                          <h1>s</h1>
+                        </td>
+                        <td>
+                          <h1>s</h1>
+                        </td>
+                        <td>
+                          <h1>s</h1>
+                        </td>
+                        <td>
+                          <h1>s</h1>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
