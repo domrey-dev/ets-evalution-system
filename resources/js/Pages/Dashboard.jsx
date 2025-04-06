@@ -70,46 +70,44 @@ export default function Dashboard({
         </div>
       }
     >
-      <Head title="Dashboard" />
-
-      {/* <h1>Implement heare</h1> */}
+      <Head title="Dashboard"/>
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
         <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
           <div className="relative">
             <div className="p-4">
               <div className="flex items-center w-full">
                 <div className="w-2/3 flex justify-center border-r border-gray-300 pr-3">
-                  <div className="flex space-x-6"> 
+                  <div className="flex space-x-6">
                     <div className="px-3 py-3">
-                     
-                    <SelectInput
+
+                      <SelectInput
                         className="w-50"
                         value={selectedFilters.month}
                         onChange={(e) => handleFilterChange("month", e.target.value)}
-                    >
+                      >
                         {monthOptions.map((option) => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
                         ))}
-                    </SelectInput>
+                      </SelectInput>
                     </div>
-                   
+
                     <div className="px-3 py-3">
                       <SelectInput
-                          className="w-50"
-                          value={selectedFilters.position}
-                          onChange={(e) => handleFilterChange("position", e.target.value)}
-                        >
-                          <option value="">Select Position</option>
-                          {position.map((posi, index) => (
-                            <option key={index} value={posi}>
-                              {posi}
-                            </option>
-                          ))}
-                        </SelectInput>
+                        className="w-50"
+                        value={selectedFilters.position}
+                        onChange={(e) => handleFilterChange("position", e.target.value)}
+                      >
+                        <option value="">Select Position</option>
+                        {position.map((posi, index) => (
+                          <option key={index} value={posi}>
+                            {posi}
+                          </option>
+                        ))}
+                      </SelectInput>
                     </div>
-                        
+
                     <div className="px-3 py-3">
                       <SelectInput
                         className="w-50"
@@ -153,9 +151,6 @@ export default function Dashboard({
         </div>
       </div>
 
-
-      <div className="py-6">
-      <h1>Implement heare111111111111111</h1>
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-5 gap-2">
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -218,68 +213,68 @@ export default function Dashboard({
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="relative">
               <div className="p-4">
-                  <div className="flex flex-col md:flex-row w-full gap-4 p-4">
-                    <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
-                      <h2 className="text-xl font-bold mb-6">Grade Distribution</h2>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <PieChart>
-                            <Pie
-                              data={formattedGradeData}
-                              cx="50%"
-                              cy="50%"
-                              labelLine={false}
-                              label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                              outerRadius={80}
-                              fill="#8884d8"
-                              dataKey="value"
-                            >
-                              {formattedGradeData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={entry.color} />
-                              ))}
-                            </Pie>
-                            <Tooltip />
-                            <Legend 
-                              layout="horizontal" 
-                              verticalAlign="bottom" 
-                              align="center" 
-                              iconType="circle" 
-                            />
-                          </PieChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </div>
-                    
-                    {/* Monthly Performance Trends chart */}
-                    <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
-                      <h2 className="text-xl font-bold mb-6">Monthly Performance Trends</h2>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <LineChart
-                            data={Object.entries(monthlyPerformance).map(([month, value]) => ({
-                              month,
-                              value
-                            }))}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                <div className="flex flex-col md:flex-row w-full gap-4 p-4">
+                  <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
+                    <h2 className="text-xl font-bold mb-6">Grade Distribution</h2>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <PieChart>
+                          <Pie
+                            data={formattedGradeData}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
+                            outerRadius={80}
+                            fill="#8884d8"
+                            dataKey="value"
                           >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="month" />
-                            <YAxis />
-                            <Tooltip />
-                            <Legend />
-                            <Line 
-                              type="monotone" 
-                              dataKey="value" 
-                              stroke="#0088FE" 
-                              activeDot={{ r: 8 }} 
-                              name="Performance"
-                            />
-                          </LineChart>
-                        </ResponsiveContainer>
-                      </div>
-                      <p className="text-center text-gray-500 mt-4">Average Percentage</p>
+                            {formattedGradeData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color}/>
+                            ))}
+                          </Pie>
+                          <Tooltip/>
+                          <Legend
+                            layout="horizontal"
+                            verticalAlign="bottom"
+                            align="center"
+                            iconType="circle"
+                          />
+                        </PieChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
+
+                  {/* Monthly Performance Trends chart */}
+                  <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
+                    <h2 className="text-xl font-bold mb-6">Monthly Performance Trends</h2>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart
+                          data={Object.entries(monthlyPerformance).map(([month, value]) => ({
+                            month,
+                            value
+                          }))}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}}
+                        >
+                          <CartesianGrid strokeDasharray="3 3"/>
+                          <XAxis dataKey="month"/>
+                          <YAxis/>
+                          <Tooltip/>
+                          <Legend/>
+                          <Line
+                            type="monotone"
+                            dataKey="value"
+                            stroke="#0088FE"
+                            activeDot={{r: 8}}
+                            name="Performance"
+                          />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                    <p className="text-center text-gray-500 mt-4">Average Percentage</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -289,49 +284,49 @@ export default function Dashboard({
           <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
             <div className="relative">
               <div className="p-4">
-                  <div className="flex flex-col md:flex-row w-full gap-4 p-4">
-                    <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
-                      <h2 className="text-xl font-bold mb-6">Project Preforment</h2>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart
-                            data={Object.entries(projectPerformance).map(([month, value]) => ({
-                              name: month.substring(0, 3),
-                              value,
-                            }))}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis domain={[0, 1000]} ticks={[0, 200, 400, 600, 800, 1000]} />
-                            <Legend verticalAlign="bottom" />
-                            <Bar dataKey="value" fill="#6B7280" name="Value" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    </div>
-                    
-                    <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
-                      <h2 className="text-xl font-bold mb-6">Department Performent</h2>
-                      <div className="h-64">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart
-                            data={Object.entries(departmentPerformance).map(([month, value]) => ({
-                              name: month.substring(0, 3),
-                              value,
-                            }))}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="name" />
-                            <YAxis domain={[0, 1000]} ticks={[0, 200, 400, 600, 800, 1000]} />
-                            <Legend verticalAlign="bottom" />
-                            <Bar dataKey="value" fill="#6B7280" name="Value" />
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
+                <div className="flex flex-col md:flex-row w-full gap-4 p-4">
+                  <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
+                    <h2 className="text-xl font-bold mb-6">Project Preforment</h2>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                          data={Object.entries(projectPerformance).map(([month, value]) => ({
+                            name: month.substring(0, 3),
+                            value,
+                          }))}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}}
+                        >
+                          <CartesianGrid strokeDasharray="3 3"/>
+                          <XAxis dataKey="name"/>
+                          <YAxis domain={[0, 1000]} ticks={[0, 200, 400, 600, 800, 1000]}/>
+                          <Legend verticalAlign="bottom"/>
+                          <Bar dataKey="value" fill="#6B7280" name="Value"/>
+                        </BarChart>
+                      </ResponsiveContainer>
                     </div>
                   </div>
+
+                  <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2">
+                    <h2 className="text-xl font-bold mb-6">Department Performent</h2>
+                    <div className="h-64">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart
+                          data={Object.entries(departmentPerformance).map(([month, value]) => ({
+                            name: month.substring(0, 3),
+                            value,
+                          }))}
+                          margin={{top: 5, right: 30, left: 20, bottom: 5}}
+                        >
+                          <CartesianGrid strokeDasharray="3 3"/>
+                          <XAxis dataKey="name"/>
+                          <YAxis domain={[0, 1000]} ticks={[0, 200, 400, 600, 800, 1000]}/>
+                          <Legend verticalAlign="bottom"/>
+                          <Bar dataKey="value" fill="#6B7280" name="Value"/>
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -344,33 +339,35 @@ export default function Dashboard({
                 Staff Evalution Tracking
               </h3>
 
-              <table className=" flex flex-col mt-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
-                  <tr className=" flex justify-around">
-                    <th className="px-3 py-3">IMP-ID</th>
-                    <th className="px-3 py-3">Staff Name</th>
-                    <th className="px-3 py-3">Department</th>
-                    <th className="px-3 py-3">Postion</th>
-                    <th className="px-3 py-3">Work Contrack</th>
-                    <th className="px-3 py-3">Status</th>
-                    <th className="px-3 py-3">Due Date</th>
-                  </tr>
+              <table
+                className=" flex flex-col mt-3 w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead
+                  className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                <tr className=" flex justify-around">
+                  <th className="px-3 py-3">IMP-ID</th>
+                  <th className="px-3 py-3">Staff Name</th>
+                  <th className="px-3 py-3">Department</th>
+                  <th className="px-3 py-3">Postion</th>
+                  <th className="px-3 py-3">Work Contrack</th>
+                  <th className="px-3 py-3">Status</th>
+                  <th className="px-3 py-3">Due Date</th>
+                </tr>
                 </thead>
                 <tbody>
-                  {activeTasks.data.slice(0,7).map((task) => (
-                    <tr key={task.id}>
-                      <td className="px-3 py-2 text-center">{task.id}</td>
-                      <td className="px-3 py-2 text-black hover:underline">
-                        <Link href={route("project.show", task.project.id)}>
-                          {task.project.name}
-                        </Link>
-                      </td>
-                      <td className="px-3 py-2 text-black hover:underline">
-                        <Link href={route("task.show", task.id)}>
-                          {task.name}
-                        </Link>
-                      </td>
-                      <td className="px-3 py-2">
+                {activeTasks.data.slice(0, 7).map((task) => (
+                  <tr key={task.id}>
+                    <td className="px-3 py-2 text-center">{task.id}</td>
+                    <td className="px-3 py-2 text-black hover:underline">
+                      <Link href={route("project.show", task.project.id)}>
+                        {task.project.name}
+                      </Link>
+                    </td>
+                    <td className="px-3 py-2 text-black hover:underline">
+                      <Link href={route("task.show", task.id)}>
+                        {task.name}
+                      </Link>
+                    </td>
+                    <td className="px-3 py-2">
                         <span
                           className={
                             "px-2 py-1 rounded text-nowrap text-white " +
@@ -379,10 +376,10 @@ export default function Dashboard({
                         >
                           {TASK_STATUS_TEXT_MAP[task.status]}
                         </span>
-                      </td>
-                      <td className="px-3 py-2 text-nowrap">{task.due_date}</td>
-                    </tr>
-                  ))}
+                    </td>
+                    <td className="px-3 py-2 text-nowrap">{task.due_date}</td>
+                  </tr>
+                ))}
                 </tbody>
               </table>
             </div>
@@ -390,5 +387,5 @@ export default function Dashboard({
         </div>
       </div>
     </AuthenticatedLayout>
-  );
+  )
 }
