@@ -1,5 +1,73 @@
--- Users Table 
-CREATE TABLE IF NOT EXISTS users (
+-- Grade Scales Table
+CREATE TABLE grade_scales (
+    grade_scale_id INT AUTO_INCREMENT PRIMARY KEY,
+    min_percentage DECIMAL(5,2) NOT NULL,
+    max_percentage DECIMAL(5,2) NOT NULL,
+    grade CHAR(2) NOT NULL,
+    meaning VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX idx_grade_range (min_percentage, max_percentage)
+);
+
+-- Evaluation Types Table
+CREATE TABLE evaluation_types (
+    evaluation_type_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    description TEXT,
+    weight DECIMAL(5,2) DEFAULT 100.0,
+    order_number INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX idx_evaluation_type_name (name)
+);
+
+-- Departments Table
+CREATE TABLE departments (
+    department_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    manager_id VARCHAR(10), -- Will be linked later
+    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX idx_department_name (name),
+    INDEX idx_department_status (status)
+);
+
+-- Positions Table
+CREATE TABLE positions (
+    position_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    level VARCHAR(50),
+    description TEXT,
+    department_id INT,
+    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id),
+    UNIQUE INDEX idx_position_title_level_dept (title, level, department_id),
+    INDEX idx_position_status (status)
+);
+
+-- Projects Table
+CREATE TABLE projects (
+    project_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    start_date DATE NOT NULL,
+    end_date DATE,
+    site_manager_id VARCHAR(10), -- Will be linked later
+    status ENUM('planning', 'active', 'on-hold', 'completed', 'cancelled') NOT NULL DEFAULT 'planning',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    UNIQUE INDEX idx_project_name (name),
+    INDEX idx_project_status (status),
+    INDEX idx_project_dates (start_date, end_date)
+);
+
+-- Users Table
+CREATE TABLE users (
     employee_id VARCHAR(10) PRIMARY KEY,
     kh_name VARCHAR(255) NOT NULL,
     en_name VARCHAR(255) NOT NULL,
@@ -17,87 +85,28 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     last_login TIMESTAMP,
-    FOREIGN KEY (position_id) REFERENCES positions(position_id),
-    FOREIGN KEY (department_id) REFERENCES departments(department_id),
-    FOREIGN KEY (project_id) REFERENCES projects(project_id),
     INDEX idx_employee_status (status),
     INDEX idx_employee_department (department_id),
     INDEX idx_employee_position (position_id),
     INDEX idx_employee_project (project_id)
 );
 
--- Departments Table 
-CREATE TABLE IF NOT EXISTS departments (
-    department_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    manager_id VARCHAR(10),
-    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (manager_id) REFERENCES users(employee_id),
-    UNIQUE INDEX idx_department_name (name),
-    INDEX idx_department_status (status)
-);
+-- Add deferred foreign key constraints for users
+ALTER TABLE users
+    ADD FOREIGN KEY (position_id) REFERENCES positions(position_id),
+    ADD FOREIGN KEY (department_id) REFERENCES departments(department_id),
+    ADD FOREIGN KEY (project_id) REFERENCES projects(project_id);
 
--- Positions Table 
-CREATE TABLE IF NOT EXISTS positions (
-    position_id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(100) NOT NULL,
-    level VARCHAR(50),
-    description TEXT,
-    department_id INT,
-    status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (department_id) REFERENCES departments(department_id),
-    UNIQUE INDEX idx_position_title_level_dept (title, level, department_id),
-    INDEX idx_position_status (status)
-);
+-- Add deferred foreign key for departments.manager_id
+ALTER TABLE departments
+    ADD FOREIGN KEY (manager_id) REFERENCES users(employee_id);
 
--- Projects Table 
-CREATE TABLE IF NOT EXISTS projects (
-    project_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    description TEXT,
-    start_date DATE NOT NULL,
-    end_date DATE,
-    site_manager_id VARCHAR(10),
-    status ENUM('planning', 'active', 'on-hold', 'completed', 'cancelled') NOT NULL DEFAULT 'planning',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (site_manager_id) REFERENCES users(employee_id),
-    UNIQUE INDEX idx_project_name (name),
-    INDEX idx_project_status (status),
-    INDEX idx_project_dates (start_date, end_date)
-);
+-- Add deferred foreign key for projects.site_manager_id
+ALTER TABLE projects
+    ADD FOREIGN KEY (site_manager_id) REFERENCES users(employee_id);
 
--- Grade Scale Table 
-CREATE TABLE IF NOT EXISTS grade_scales (
-    grade_scale_id INT AUTO_INCREMENT PRIMARY KEY,
-    min_percentage DECIMAL(5,2) NOT NULL,
-    max_percentage DECIMAL(5,2) NOT NULL,
-    grade CHAR(2) NOT NULL,
-    meaning VARCHAR(50) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX idx_grade_range (min_percentage, max_percentage)
-);
-
--- Insert grade scale
-INSERT INTO grade_scales (min_percentage, max_percentage, grade, meaning) VALUES
-(95.1, 99.0, 'A+', 'Excellence'),
-(90.1, 95.0, 'A', 'Excellence'),
-(85.1, 90.0, 'B+', 'Good'),
-(80.1, 85.0, 'B', 'Good'),
-(75.1, 80.0, 'C+', 'Acceptable'),
-(70.1, 75.0, 'C', 'Acceptable'),
-(65.1, 70.0, 'D+', 'Considering'),
-(60.1, 65.0, 'D', 'Considering'),
-(0.0, 60.0, 'E', 'Fail');
-
--- Evaluation Templates Table 
-CREATE TABLE IF NOT EXISTS evaluation_templates (
+-- Evaluation Templates Table
+CREATE TABLE evaluation_templates (
     evaluation_template_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
@@ -118,31 +127,13 @@ CREATE TABLE IF NOT EXISTS evaluation_templates (
     INDEX idx_template_active (is_active)
 );
 
--- Evaluation Types Table 
-CREATE TABLE IF NOT EXISTS evaluation_types (
-    evaluation_type_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
-    description TEXT,
-    weight DECIMAL(5,2) DEFAULT 100.0, -- For weighted average calculations
-    order_number INT NOT NULL, -- For workflow ordering
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    UNIQUE INDEX idx_evaluation_type_name (name)
-);
-
--- Insert common evaluation types
-INSERT INTO evaluation_types (name, description, weight, order_number) VALUES
-('Self Evaluation', 'Employee evaluates themselves', 30.0, 1),
-('Staff Evaluation', 'Manager evaluates employee', 50.0, 2),
-('Final Evaluation', 'Final evaluation after discussion', 100.0, 3);
-
--- Evaluation Criteria Categories Table 
-CREATE TABLE IF NOT EXISTS evaluation_criteria_categories (
+-- Evaluation Criteria Categories Table
+CREATE TABLE evaluation_criteria_categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     description TEXT,
     evaluation_template_id INT NOT NULL,
-    weight DECIMAL(5,2) DEFAULT 100.0, -- Category weight within template
+    weight DECIMAL(5,2) DEFAULT 100.0,
     order_number INT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -151,8 +142,8 @@ CREATE TABLE IF NOT EXISTS evaluation_criteria_categories (
     INDEX idx_category_order (evaluation_template_id, order_number)
 );
 
--- Evaluation Criteria Table 
-CREATE TABLE IF NOT EXISTS evaluation_criteria (
+-- Evaluation Criteria Table
+CREATE TABLE evaluation_criteria (
     criteria_id INT AUTO_INCREMENT PRIMARY KEY,
     category_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
@@ -168,8 +159,8 @@ CREATE TABLE IF NOT EXISTS evaluation_criteria (
     INDEX idx_criteria_order (category_id, order_number)
 );
 
--- Evaluation Periods Table 
-CREATE TABLE IF NOT EXISTS evaluation_periods (
+-- Evaluation Periods Table
+CREATE TABLE evaluation_periods (
     period_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     start_date DATE NOT NULL,
@@ -185,8 +176,8 @@ CREATE TABLE IF NOT EXISTS evaluation_periods (
     INDEX idx_period_status (status)
 );
 
--- Evaluations Table 
-CREATE TABLE IF NOT EXISTS evaluations (
+-- Evaluations Table
+CREATE TABLE evaluations (
     evaluation_id INT AUTO_INCREMENT PRIMARY KEY,
     employee_id VARCHAR(10) NOT NULL,
     evaluator_id VARCHAR(10) NOT NULL,
@@ -215,8 +206,8 @@ CREATE TABLE IF NOT EXISTS evaluations (
     INDEX idx_evaluation_dates (due_date, submission_date)
 );
 
--- Evaluation Responses Table 
-CREATE TABLE IF NOT EXISTS evaluation_responses (
+-- Evaluation Responses Table
+CREATE TABLE evaluation_responses (
     response_id INT AUTO_INCREMENT PRIMARY KEY,
     evaluation_id INT NOT NULL,
     criteria_id INT NOT NULL,
@@ -229,3 +220,4 @@ CREATE TABLE IF NOT EXISTS evaluation_responses (
     UNIQUE INDEX idx_response_unique (evaluation_id, criteria_id),
     INDEX idx_response_score (score)
 );
+
