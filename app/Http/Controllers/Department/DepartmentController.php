@@ -13,7 +13,7 @@ class DepartmentController extends Controller
     public function index()
     {
         return Inertia::render('Department/Index', [
-            'department' => Department::all(),
+            'departments' => Department::all(),
         ]);
     }
     public function create()

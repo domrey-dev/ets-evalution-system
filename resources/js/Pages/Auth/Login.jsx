@@ -58,7 +58,6 @@ export default function Login({ status, canResetPassword }) {
                     <InputLabel htmlFor="password" value="Password" />
 
                     <TextInput
-                        id="password"
                         type="password"
                         id="password"
                         name="password"

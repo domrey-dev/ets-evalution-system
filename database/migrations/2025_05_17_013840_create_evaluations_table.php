@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff_evaluation_form', function (Blueprint $table) {
+        Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
-            $table->string('evaluation_title');
-            $table->longText("evaluation_description")->nullable();
-            $table->enum('evaluation_status', ['easy', 'hard']);
+            $table->longText('title');
+            $table->longText('comment')->nullable();;
             $table->timestamps();
         });
     }
@@ -25,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff_evaluation_form');
+        Schema::dropIfExists('evaluations');
     }
 };

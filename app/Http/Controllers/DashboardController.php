@@ -19,7 +19,6 @@ class DashboardController extends Controller
             ->where('assigned_user_id', $user->id)
             ->count();
 
-
         $totalProgressTasks = Task::query()
             ->where('status', 'in_progress')
             ->count();
@@ -44,22 +43,22 @@ class DashboardController extends Controller
             ->get();
 
         $position = [
-            'Software Engineer', 
-            'Sales Executive', 
-            'Marketing Manager', 
-            'HR Manager', 
-            'Finance Analyst', 
+            'Software Engineer',
+            'Sales Executive',
+            'Marketing Manager',
+            'HR Manager',
+            'Finance Analyst',
             'Customer Support Specialist',
             'IT Support',
             'Graphic Designer'
         ];
 
         $departments = [
-            'Engineering', 
-            'Sales', 
-            'Marketing', 
-            'Human Resources', 
-            'Finance', 
+            'Engineering',
+            'Sales',
+            'Marketing',
+            'Human Resources',
+            'Finance',
             'Customer Support',
             'Information Technology'
         ];
