@@ -1,6 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
-import DepartmentCard from "./DepartmentCard";
+import DepartmentCard from "./DepartmentCard.jsx";
 
 export default function Index({ auth, success, departments, queryParams = {} }) {
   const { flash } = usePage().props;

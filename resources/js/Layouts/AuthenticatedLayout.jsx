@@ -46,10 +46,16 @@ export default function AuthenticatedLayout({ user, header, children }) {
                   Department
                 </NavLink>
                 <NavLink
+                  href={route("evaluations.index")}
+                  active={route().current("evaluations.index")}
+                >
+                  Evaluation Forms
+                </NavLink>
+                <NavLink
                   href={route("user.index")}
                   active={route().current("user.index")}
                 >
-                  Evaluation Forms
+                  Evaluator
                 </NavLink>
               </div>
             </div>

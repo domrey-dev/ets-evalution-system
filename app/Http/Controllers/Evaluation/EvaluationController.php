@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Evaluation;
 
 use App\Http\Controllers\Controller;
-use App\Models\Department;
 use App\Models\Evaluations;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,7 +16,7 @@ class EvaluationController extends Controller
     {
         //
         return Inertia::render('Evaluation/Index', [
-            'evaluation' => Evaluations::all(),
+            'evaluations' => Evaluations::all(),
         ]);
     }
 
@@ -35,14 +34,13 @@ class EvaluationController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required',
             'comment' => 'required',
         ]);
         Evaluations::create($validated);
 
-        return redirect()->route('evaluation.index')->with('success', 'Task created.');
+        return "Hello";
     }
 
     /**
@@ -58,9 +56,8 @@ class EvaluationController extends Controller
      */
     public function edit(Evaluations $evaluations)
     {
-        //
         return Inertia::render('Department/Edit', [
-            'department' => $evaluations,
+            'evaluations' => $evaluations,
         ]);
     }
 
@@ -77,7 +74,7 @@ class EvaluationController extends Controller
 
         $evaluations->update($validated);
 
-        return redirect()->route('department.index')->with('success', 'Task updated.');
+        return redirect()->route('evaluations.index')->with('success', 'Task updated.');
     }
 
     /**

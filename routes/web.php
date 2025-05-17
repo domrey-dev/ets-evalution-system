@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Department\DepartmentController;
+use App\Http\Controllers\Evaluation\EvaluationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
@@ -18,6 +19,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('project', ProjectController::class);
     Route::resource('department', DepartmentController::class);
     Route::resource('user', UserController::class);
+    Route::resource('evaluations', EvaluationController::class);
 });
 
 Route::middleware('auth')->group(function () {
