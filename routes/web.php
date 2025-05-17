@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Department\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('dashboard');
 
     Route::resource('project', ProjectController::class);
-    Route::get('/task/my-tasks', [TaskController::class, 'myTasks'])
-        ->name('task.myTasks');
-    Route::resource('task', TaskController::class);
+    Route::resource('department', DepartmentController::class);
     Route::resource('user', UserController::class);
 });
 
