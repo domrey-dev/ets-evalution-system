@@ -7,4 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Evaluations extends Model
 {
     //
+    protected $table = 'evaluations';
+    protected $fillable = ['title','comment'];
 }
