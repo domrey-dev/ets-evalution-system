@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\EvaluationRoom;
 
 use App\Http\Controllers\Controller;
+use App\Models\Evaluations;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EvaluationRoomController extends Controller
 {
@@ -12,7 +14,9 @@ class EvaluationRoomController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('EvaluationRoom/Index', [
+            'evaluations_room' => Evaluations::all(),
+        ]);
     }
 
     /**
@@ -21,6 +25,7 @@ class EvaluationRoomController extends Controller
     public function create()
     {
         //
+        return Inertia::render('Evaluation/Create');
     }
 
     /**
@@ -28,7 +33,7 @@ class EvaluationRoomController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -42,17 +47,17 @@ class EvaluationRoomController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Evaluations $evaluations)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+
     }
 
     /**
