@@ -14,7 +14,6 @@ class EvaluationController extends Controller
      */
     public function index()
     {
-        //
         return Inertia::render('Evaluation/Index', [
             'evaluations' => Evaluations::all(),
         ]);
@@ -35,12 +34,12 @@ class EvaluationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required',
-            'comment' => 'required',
+            'title' => 'required|string|max:255',
         ]);
+
         Evaluations::create($validated);
 
-        return "Hello";
+        return redirect()->route('evaluations.index')->with('success', 'Task created.');
     }
 
     /**

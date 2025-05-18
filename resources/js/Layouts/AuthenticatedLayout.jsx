@@ -57,6 +57,12 @@ export default function AuthenticatedLayout({ user, header, children }) {
                 >
                   Evaluator
                 </NavLink>
+                <NavLink
+                  href={route("user.index")}
+                  active={route().current("user.index")}
+                >
+                  Evaluation Room
+                </NavLink>
               </div>
             </div>
 

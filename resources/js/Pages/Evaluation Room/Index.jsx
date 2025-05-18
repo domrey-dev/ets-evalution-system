@@ -28,8 +28,7 @@ export default function Index({ auth, success, evaluations, queryParams = {} }) 
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
           <div className="bg-white dark:bg-gray-800 shadow sm:rounded-lg">
             <div className="p-6 text-gray-900 dark:text-gray-100">
-              <h1 className="mb-4">ផ្នែកទី២: ចំណុចវាយតម្លៃ ការអនុវត្តការងារជាក់ស្តែងយោបល់បន្ថែម និងការឆ្លើយតបរបស់ប្រធានសាមី </h1>
-              <EvaluationCard evaluations={evaluations} />
+              <h2>Hello</h2>
             </div>
           </div>
         </div>
