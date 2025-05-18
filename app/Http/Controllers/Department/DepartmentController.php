@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Department;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Department\DepartmentRequest;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class DepartmentController extends Controller
 {
-    //
+
     public function index()
     {
         return Inertia::render('Department/Index', [
@@ -20,14 +22,12 @@ class DepartmentController extends Controller
     {
         return Inertia::render('Department/Create');
     }
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        Department::create($validated);
+        $data = $request->validated();
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        Department::create($data);
 
         return redirect()->route('department.index')->with('success', 'Task created.');
     }
