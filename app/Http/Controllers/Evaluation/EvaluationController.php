@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Evaluation;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Evaluation\EvaluationRequest;
+use App\Http\Resources\Evaluation\EvaluationResource;
 use App\Models\Evaluations;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class EvaluationController extends Controller
@@ -31,13 +34,12 @@ class EvaluationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(EvaluationRequest $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-        ]);
-
-        Evaluations::create($validated);
+        $data = $request->validated();
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        Evaluations::create($data);
 
         return redirect()->route('evaluations.index')->with('success', 'Task created.');
     }
@@ -67,7 +69,6 @@ class EvaluationController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'comment' => 'nullable|string',
 
         ]);
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Department;
+namespace App\Http\Resources\Evaluation;
 
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class DepartmentResource extends ResourceCollection
+class EvaluationResource extends ResourceCollection
 {
     /**
      * Transform the resource into an array.
@@ -18,8 +18,7 @@ class DepartmentResource extends ResourceCollection
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'description' => $this->description,
+            'title' => $this->title,
             'createdBy' => new UserResource($this->createdBy),
             'updatedBy' => new UserResource($this->updatedBy),
         ];
