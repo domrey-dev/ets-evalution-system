@@ -88,7 +88,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       >
                         EMP-ID
                       </TableHeading>
-             
+
                       <TableHeading
                         name="name"
                         sort_field={queryParams.sort_field}
@@ -156,21 +156,8 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       <th className="px-3 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                  <thead className="w-full text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3">
-                        <TextInput
-                          className="w-full"
-                          defaultValue={queryParams.name}
-                          placeholder="Project Name"
-                          onBlur={(e) =>
-                            searchFieldChanged("name", e.target.value)
-                          }
-                          onKeyPress={(e) => onKeyPress("name", e)}
-                        />
-                      </th>
                       <th className="px-3 py-3">
                         <SelectInput
                           className="w-full"
@@ -185,10 +172,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           <option value="completed">Completed</option>
                         </SelectInput>
                       </th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -203,6 +186,18 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                             {project.name}
                           </Link>
                         </th>
+                        {/*<th>{{project.phone}}</th>*/}
+                        {/*<th>{{project.work_contract}}</th>*/}
+                        {/*<th>{{project.gender}}</th>*/}
+                        {/*<th>{{project.position}}</th>*/}
+                        {/*<th>{{project.project}}</th>*/}
+                        {/*<th>{{project.role}}</th>*/}
+                        <th>Phon</th>
+                        <th>work_contract</th>
+                        <th>gender</th>
+                        <th>position</th>
+                        <th>project</th>
+                        <th>role</th>
                         <td className="px-3 py-2">
                           <span
                             className={
@@ -213,13 +208,6 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                             {PROJECT_STATUS_TEXT_MAP[project.status]}
                           </span>
                         </td>
-                        <td className="px-3 py-2 text-nowrap">
-                          {project.created_at}
-                        </td>
-                        <td className="px-3 py-2 text-nowrap">
-                          {project.due_date}
-                        </td>
-                        <td className="px-3 py-2">{project.createdBy.name}</td>
                         <td className="px-3 py-2 text-nowrap">
                           <Link
                             href={route("project.edit", project.id)}
@@ -234,18 +222,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                             Delete
                           </button>
                         </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
+
                       </tr>
                     ))}
                   </tbody>
