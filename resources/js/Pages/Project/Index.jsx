@@ -53,7 +53,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
       user={auth.user}
       header={
         <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+          <h2 className="font-semibold text-xl text-black leading-tight">
             Staff
           </h2>
           <Link
@@ -74,11 +74,11 @@ export default function Index({ auth, projects, queryParams = null, success }) {
               {success}
             </div>
           )}
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-black">
               <div className="overflow-auto">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                <table className="w-full text-sm text-left rtl:text-right text-black">
+                  <thead className="text-xs text-black uppercase bg-gray-50 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
                       <TableHeading
                         name="id"
@@ -156,7 +156,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       <th className="px-3 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <thead className="w-full text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                  <thead className="w-full text-xs text-black uppercase bg-gray-50 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
                       <th className="px-3 py-3">
                         <SelectInput
@@ -177,7 +177,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                   <tbody>
                     {projects.data.map((project) => (
                       <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        className="bg-white border-b"
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
@@ -211,13 +211,13 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         <td className="px-3 py-2 text-nowrap">
                           <Link
                             href={route("project.edit", project.id)}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                            className="font-medium text-blue-600 hover:underline mx-1"
                           >
                             Edit
                           </Link>
                           <button
                             onClick={(e) => deleteProject(project)}
-                            className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                            className="font-medium text-red-600 hover:underline mx-1"
                           >
                             Delete
                           </button>

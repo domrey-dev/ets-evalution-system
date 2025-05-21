@@ -1,4 +1,8 @@
-export default function EvaluationModel() {
+export default function EvaluationModel({ onChange = () => {} }) {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    onChange({ [name]: value });
+  };
 
   return (
     <div className="max-w-6xl mx-auto p-6 bg-white rounded shadow">
@@ -9,8 +13,10 @@ export default function EvaluationModel() {
           </label>
           <input
             type="text"
+            name="searchId"
             placeholder="Search by ID"
             className="w-full border-b border-gray-300 p-2 focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
 
@@ -20,8 +26,10 @@ export default function EvaluationModel() {
           </label>
           <input
             type="text"
+            name="monthlyPerformance"
             placeholder="Staff Performance"
             className="w-full border-b border-gray-300 p-2 focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
 
@@ -31,8 +39,10 @@ export default function EvaluationModel() {
           </label>
           <input
             type="text"
+            name="employeeName"
             placeholder="Search by Name"
             className="w-full border-b border-gray-300 p-2 focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
 
@@ -42,7 +52,9 @@ export default function EvaluationModel() {
           </label>
           <input
             type="date"
+            name="evaluationDate"
             className="w-full border-b border-gray-300 p-2 focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
 
@@ -52,8 +64,10 @@ export default function EvaluationModel() {
           </label>
           <input
             type="text"
+            name="jobTitle"
             placeholder="Job Title"
             className="w-full border-b border-gray-300 p-2 focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
 
@@ -63,8 +77,10 @@ export default function EvaluationModel() {
           </label>
           <input
             type="text"
+            name="department"
             placeholder="Department Name"
             className="w-full border-b border-gray-300 p-2 focus:outline-none"
+            onChange={handleInputChange}
           />
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function Dashboard({
       user={auth.user}
       header={
         <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+          <h2 className="font-semibold text-xl text-gray-800 leading-tight">
             Dashboard
           </h2>
         </div>
@@ -66,7 +66,7 @@ export default function Dashboard({
     >
       <Head title="Dashboard"/>
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
           <div className="relative">
             <div className="p-4">
               <div className="flex items-center w-full">
@@ -147,8 +147,8 @@ export default function Dashboard({
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 grid grid-cols-5 gap-2">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900">
               <h3 className="text-amber-500 text-2xl font-semibold">
                 Total
               </h3>
@@ -157,8 +157,8 @@ export default function Dashboard({
               </p>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900">
               <h3 className="text-amber-500 text-2xl font-semibold">
                 Completed
               </h3>
@@ -168,8 +168,8 @@ export default function Dashboard({
               </p>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900">
               <h3 className="text-amber-500 text-2xl font-semibold">
                 Incompleted
               </h3>
@@ -179,8 +179,8 @@ export default function Dashboard({
               </p>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900">
               <h3 className="text-blue-500 text-2xl font-semibold">
                 New Staff
               </h3>
@@ -190,8 +190,8 @@ export default function Dashboard({
               </p>
             </div>
           </div>
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-gray-900">
               <h3 className="text-green-500 text-2xl font-semibold">
                 Resing Staff
               </h3>
@@ -205,7 +205,7 @@ export default function Dashboard({
 
 
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="relative">
               <div className="p-4">
                 <div className="flex flex-col md:flex-row w-full gap-4 p-4">
@@ -276,7 +276,7 @@ export default function Dashboard({
         </div>
 
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-4">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div className="relative">
               <div className="p-4">
                 <div className="flex flex-col md:flex-row w-full gap-4 p-4">
