@@ -4,7 +4,7 @@ export default function EvaluationCard({ evaluations = [] }) {
       {evaluations.map((evaluate) => (
         <div
           key={evaluate.id}
-          className="p-4 bg-white dark:bg-gray-700 rounded shadow hover:shadow-lg transition"
+          className="p-4 bg-white rounded shadow hover:shadow-lg transition"
         >
           <h3 className="text-lg font-semibold">{evaluate.id}- {evaluate.title}</h3>
         </div>

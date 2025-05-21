@@ -1,14 +1,4 @@
-export default function EvaluationCard() {
-  const criteria = [
-    {
-      id: 1,
-      title: "1. Quality of work: Accuracy and consistency of work, attention to details",
-    },
-    {
-      id: 2,
-      title: "2. Quantity of work: Amount of work, completion of work on time",
-    },
-  ];
+export default function EvaluationCard({ criteria = [] }) {
   return (
     <div className=" flex flex-row gap-4">
 

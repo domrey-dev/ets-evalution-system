@@ -10,7 +10,7 @@ export default function Index({ auth, success, departments, queryParams = {} }) 
       user={auth.user}
       header={
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+          <h2 className="font-semibold text-xl text-black leading-tight">
             Departments
           </h2>
           <Link
@@ -26,8 +26,8 @@ export default function Index({ auth, success, departments, queryParams = {} }) 
 
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white shadow sm:rounded-lg">
+            <div className="p-6 text-black">
               <DepartmentCard departments={departments} />
             </div>
           </div>
