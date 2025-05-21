@@ -1,17 +1,17 @@
-# EST-Enginner Evalution System
+# EST-Engineer Evaluation System
 ### Features
 1. Registration & Login
 2. Projects CRUD with sorting, filtering and pagination
 3. Tasks CRUD with sorting, filtering and pagination
-4. Create Tasks inside project
+4. Create Tasks inside a project
 5. Show all tasks or show tasks for a specific project
 6. Assign users to tasks
 7. View Tasks assigned to me
-8. Show dashboard with overview information
+8. Show a dashboard with overview information
 
 ### Installation
 1. Clone the project
-2. Navigate to the project's root directory using terminal
+2. Navigate to the project's root directory using the terminal
 3. Create `.env` file - `cp .env.example .env`
 4. Execute `composer install`
 5. Execute `npm install`
