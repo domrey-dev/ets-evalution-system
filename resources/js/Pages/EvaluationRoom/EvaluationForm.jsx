@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-export default function EvaluationForm({ evaluationType = 'staff' }) {
+export default function EvaluationForm({ evaluationTitle = [] }) {
   const [formData, setFormData] = useState({});
-  
+
   // Define criteria for evaluation
   const criteria = [
     {
@@ -14,7 +14,7 @@ export default function EvaluationForm({ evaluationType = 'staff' }) {
       title: "2. Quantity of work: Amount of work, completion of work on time",
     },
   ];
-  
+
   const handleInputChange = (criteriaId, field, value) => {
     setFormData(prev => ({
       ...prev,
@@ -24,7 +24,7 @@ export default function EvaluationForm({ evaluationType = 'staff' }) {
       }
     }));
   };
-  
+
   return (
     <div className="mt-6">
       <div className="flex justify-between mb-4">
@@ -37,8 +37,8 @@ export default function EvaluationForm({ evaluationType = 'staff' }) {
           <div className="text-gray-600">Performance Rating 1-5</div>
         </div>
       </div>
-      
-      {criteria.map((item) => (
+
+      {evaluationTitle.map((item) => (
         <div key={item.id} className="mb-8">
           <div className="mb-2 font-medium">{item.title}</div>
           <div className="text-sm mb-1">យោបល់/Comments & feedback:</div>
@@ -46,14 +46,14 @@ export default function EvaluationForm({ evaluationType = 'staff' }) {
             <div className="flex-grow">
               <textarea
                 className="w-full border border-gray-300 rounded p-2"
-                rows="4"
+                rows="2"
                 placeholder="Write feedback here..."
                 value={formData[item.id]?.feedback || ''}
                 onChange={(e) => handleInputChange(item.id, 'feedback', e.target.value)}
               />
             </div>
             <div className="w-32">
-              <select 
+              <select
                 className="w-full border border-gray-300 rounded p-2 text-sm h-10"
                 value={formData[item.id]?.rating || ''}
                 onChange={(e) => handleInputChange(item.id, 'rating', e.target.value)}
