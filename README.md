@@ -1,5 +1,7 @@
 # EST-Engineer Evaluation System
-### Features
+
+## Features
+
 1. Registration & Login
 2. Projects CRUD with sorting, filtering and pagination
 3. Tasks CRUD with sorting, filtering and pagination
@@ -9,7 +11,8 @@
 7. View Tasks assigned to me
 8. Show a dashboard with overview information
 
-### Installation
+## Installation
+
 1. Clone the project
 2. Navigate to the project's root directory using the terminal
 3. Create `.env` file - `cp .env.example .env`

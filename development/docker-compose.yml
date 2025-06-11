@@ -2,7 +2,7 @@ version: "3.8"
 services:
     mysql:
         image: mysql:latest
-        container_name: laravel_mysql
+        container_name: mysql_db
         restart: unless-stopped
         ports:
             - "3306:3306"
@@ -10,7 +10,7 @@ services:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: laravel_db
             MYSQL_USER: laravel_user
-            MYSQL_PASSWORD: G7t#r9Xz!Kw2L@mq
+            MYSQL_PASSWORD: 2tZxHFizMpx
         networks:
             - ets_network
 networks:

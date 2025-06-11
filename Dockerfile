@@ -17,7 +17,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get install -y nodejs
-    
+
 # Set working directory
 WORKDIR /var/www
 
@@ -27,6 +27,19 @@ COPY . .
 # Install dependencies using Composer
 
 RUN composer install
+
+RUN npm install
+
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+    
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# ... rest of your Dockerfile ...
+
+# Set the entrypoint
+ENTRYPOINT ["entrypoint.sh"]
 
 # Expose the necessary port
 EXPOSE 9000

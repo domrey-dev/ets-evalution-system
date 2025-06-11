@@ -14,7 +14,9 @@
         "paths": {
             "@/*": ["./resources/js/*"],
             "ziggy-js": ["./vendor/tighten/ziggy"]
-        }
+        },
+        "types": []
     },
-    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts", "resources/js/constants.jsx"]
+    "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts", "resources/js/constants.jsx"],
+    "exclude": ["node_modules", "**/node_modules/*"]
 }
