@@ -14,11 +14,12 @@ fi
 # Generate application key
 php artisan key:generate --force
 
-
 # Run migrations
 php artisan migrate --seeder --force
 
 echo "Migrations finished...."
 # Start Laravel development server
 # php artisan serve --host=0.0.0.0 --port=8000
+chown -R $USER:www-data storage bootstrap/cache
+chmod -R 775 storage bootstrap/cache
 exec "$@"

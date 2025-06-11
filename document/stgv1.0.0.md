@@ -1,10 +1,11 @@
 # Release Log
 
-## Version 1.6.23 - 23-02-2025
+## Version 1.0.0 - 12-12-2025
 
 ### Overview
 
-- add field share_link.
+- build docker image and compose run with nginx
+- add script migration database 
 
 ### 🐛 **UI**
 
