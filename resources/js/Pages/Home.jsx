@@ -1,7 +1,7 @@
 import React from "react";
 import { Head, usePage } from "@inertiajs/react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/Card";
+import { Button } from "@/components/Button";
 import {
   PieChart,
   Pie,
