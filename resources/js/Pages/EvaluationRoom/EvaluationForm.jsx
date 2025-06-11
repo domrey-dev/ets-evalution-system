@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function EvaluationForm({ evaluationTitle = [] }) {
-  const [formData, setFormData] = useState({});
+export default function EvaluationForm({ evaluationType, onChange, data = {}, readOnly = false }) {
+  const [formData, setFormData] = useState(data || {});
+
+  useEffect(() => {
+    setFormData(data || {});
+  }, [data]);
 
   // Define criteria for evaluation
   const criteria = [
@@ -16,13 +20,17 @@ export default function EvaluationForm({ evaluationTitle = [] }) {
   ];
 
   const handleInputChange = (criteriaId, field, value) => {
-    setFormData(prev => ({
-      ...prev,
+    const updated = {
+      ...formData,
       [criteriaId]: {
-        ...prev[criteriaId],
+        ...formData[criteriaId],
         [field]: value
       }
-    }));
+    };
+    setFormData(updated);
+    if (onChange && !readOnly) {
+      onChange(updated);
+    }
   };
 
   return (
@@ -38,7 +46,7 @@ export default function EvaluationForm({ evaluationTitle = [] }) {
         </div>
       </div>
 
-      {evaluationTitle.map((item) => (
+      {criteria.map((item) => (
         <div key={item.id} className="mb-8">
           <div className="mb-2 font-medium">{item.title}</div>
           <div className="text-sm mb-1">យោបល់/Comments & feedback:</div>
@@ -49,14 +57,16 @@ export default function EvaluationForm({ evaluationTitle = [] }) {
                 rows="2"
                 placeholder="Write feedback here..."
                 value={formData[item.id]?.feedback || ''}
-                onChange={(e) => handleInputChange(item.id, 'feedback', e.target.value)}
+                onChange={e => handleInputChange(item.id, 'feedback', e.target.value)}
+                disabled={readOnly}
               />
             </div>
             <div className="w-32">
               <select
                 className="w-full border border-gray-300 rounded p-2 text-sm h-10"
                 value={formData[item.id]?.rating || ''}
-                onChange={(e) => handleInputChange(item.id, 'rating', e.target.value)}
+                onChange={e => handleInputChange(item.id, 'rating', e.target.value)}
+                disabled={readOnly}
               >
                 <option value="">Select</option>
                 {[1, 2, 3, 4, 5].map((num) => (

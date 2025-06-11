@@ -11,6 +11,9 @@ export default function Index({ auth, success, evaluations, queryParams = {} }) 
   const { flash } = page.props || {};
   const [activeTab, setActiveTab] = useState("staff");
   const [evaluationData, setEvaluationData] = useState({});
+  const [staffEvaluation, setStaffEvaluation] = useState({});
+  const [selfEvaluation, setSelfEvaluation] = useState({});
+  const [finalEvaluation, setFinalEvaluation] = useState({});
   
   const criteria = [
     {
@@ -26,6 +29,11 @@ export default function Index({ auth, success, evaluations, queryParams = {} }) 
   const handleDataChange = (newData) => {
     setEvaluationData(prev => ({ ...prev, ...newData }));
   };
+
+  const handleStaffChange = (data) => setStaffEvaluation(data);
+  const handleSelfChange = (data) => setSelfEvaluation(data);
+  const handleFinalChange = (data) => setFinalEvaluation(data);
+
   return (
     <AuthenticatedLayout
       user={auth.user}
@@ -85,21 +93,45 @@ export default function Index({ auth, success, evaluations, queryParams = {} }) 
               {activeTab === "staff" && (
                 <div className="mt-6">
                   <h2 className="text-xl font-semibold mb-4">Staff Evaluation</h2>
-                  <EvaluationForm evaluationType="staff" />
+                  <EvaluationForm evaluationType="staff" onChange={handleStaffChange} data={staffEvaluation} />
                 </div>
               )}
               
               {activeTab === "self" && (
                 <div className="mt-6">
                   <h2 className="text-xl font-semibold mb-4">Self Evaluation</h2>
-                  <EvaluationForm evaluationType="self" />
+                  <EvaluationForm evaluationType="self" onChange={handleSelfChange} data={selfEvaluation} />
                 </div>
               )}
               
               {activeTab === "final" && (
                 <div className="mt-6">
                   <h2 className="text-xl font-semibold mb-4">Final Evaluation</h2>
-                  <EvaluationForm evaluationType="final" />
+                  <div className="flex gap-6 mb-6">
+                    <div className="w-1/2 border rounded p-4 bg-gray-50">
+                      <h3 className="font-bold mb-2">Staff Evaluation</h3>
+                      <EvaluationForm evaluationType="staff" data={staffEvaluation} readOnly />
+                      <button
+                        className="mt-2 bg-emerald-500 text-white px-4 py-2 rounded"
+                        onClick={() => setFinalEvaluation(staffEvaluation)}
+                        type="button"
+                      >
+                        Choose this
+                      </button>
+                    </div>
+                    <div className="w-1/2 border rounded p-4 bg-gray-50">
+                      <h3 className="font-bold mb-2">Self Evaluation</h3>
+                      <EvaluationForm evaluationType="self" data={selfEvaluation} readOnly />
+                      <button
+                        className="mt-2 bg-emerald-500 text-white px-4 py-2 rounded"
+                        onClick={() => setFinalEvaluation(selfEvaluation)}
+                        type="button"
+                      >
+                        Choose this
+                      </button>
+                    </div>
+                  </div>
+                  <EvaluationForm evaluationType="final" data={finalEvaluation} onChange={handleFinalChange} />
                 </div>
               )}
               

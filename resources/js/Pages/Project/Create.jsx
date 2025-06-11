@@ -76,13 +76,13 @@ export default function Create({ auth }) {
                   value="Project Description"
                 />
 
-                <TextAreaInput
-                  id="project_description"
-                  name="description"
-                  value={data.description}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("description", e.target.value)}
-                />
+              <TextAreaInput
+                id="project_description"
+                name="description"
+                value={data.description}
+                className="mt-1 block w-full bg-white text-black border border-gray-300 rounded focus:ring-emerald-400 focus:border-emerald-400"
+                onChange={(e) => setData("description", e.target.value)}
+              />
 
                 <InputError message={errors.description} className="mt-2" />
               </div>
