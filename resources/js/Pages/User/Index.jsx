@@ -145,11 +145,11 @@ export default function Index({ auth, users, queryParams = null, success }) {
                   <tbody>
                     {users.data.map((user) => (
                       <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        className="bg-white border-b"
                         key={user.id}
                       >
                         <td className="px-3 py-2">{user.id}</td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap">
+                        <th className="px-3 py-2 text-black text-nowrap">
                           {user.name}
                         </th>
                         <td className="px-3 py-2">{user.email}</td>
@@ -159,13 +159,13 @@ export default function Index({ auth, users, queryParams = null, success }) {
                         <td className="px-3 py-2 text-nowrap">
                           <Link
                             href={route("user.edit", user.id)}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                            className="font-medium text-blue-600 hover:underline mx-1"
                           >
                             Edit
                           </Link>
                           <button
                             onClick={(e) => deleteUser(user)}
-                            className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                            className="font-medium text-red-600 hover:underline mx-1"
                           >
                             Delete
                           </button>

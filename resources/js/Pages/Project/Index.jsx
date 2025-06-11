@@ -9,6 +9,21 @@ import {
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
+<style>
+{`
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: 50%;
+  padding-right: 2rem;
+}
+`}
+</style>
+
 export default function Index({ auth, projects, queryParams = null, success }) {
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
@@ -159,18 +174,22 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                   <thead className="w-full text-xs text-black uppercase bg-gray-50 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
                       <th className="px-3 py-3">
-                        <SelectInput
-                          className="w-full"
-                          defaultValue={queryParams.status}
-                          onChange={(e) =>
-                            searchFieldChanged("status", e.target.value)
-                          }
-                        >
-                          <option value="">Select Status</option>
-                          <option value="pending">Pending</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="completed">Completed</option>
-                        </SelectInput>
+                      <SelectInput
+                      className="custom-select w-full border border-gray-200 rounded-md bg-white px-2 py-1 text-sm font-normal text-black focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                      defaultValue={queryParams.status}
+                      onChange={(e) => searchFieldChanged("status", e.target.value)}
+                      style={{
+                        boxShadow: "none",
+                        fontWeight: 400,
+                        minWidth: "120px",
+                        maxWidth: "180px"
+                      }}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </SelectInput>
                       </th>
                     </tr>
                   </thead>
@@ -181,11 +200,9 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
-                          <Link href={route("project.show", project.id)}>
-                            {project.name}
-                          </Link>
-                        </th>
+                        <td className="px-3 py-2 text-black text-nowrap">
+                          {project.name}
+                        </td>
                         {/*<th>{{project.phone}}</th>*/}
                         {/*<th>{{project.work_contract}}</th>*/}
                         {/*<th>{{project.gender}}</th>*/}
