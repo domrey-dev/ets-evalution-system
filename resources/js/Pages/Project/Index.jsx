@@ -9,6 +9,21 @@ import {
 import { Head, Link, router } from "@inertiajs/react";
 import TableHeading from "@/Components/TableHeading";
 
+<style>
+{`
+.custom-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position-x: 95%;
+  background-position-y: 50%;
+  padding-right: 2rem;
+}
+`}
+</style>
+
 export default function Index({ auth, projects, queryParams = null, success }) {
   queryParams = queryParams || {};
   const searchFieldChanged = (name, value) => {
@@ -53,7 +68,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
       user={auth.user}
       header={
         <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+          <h2 className="font-semibold text-xl text-black leading-tight">
             Staff
           </h2>
           <Link
@@ -74,11 +89,11 @@ export default function Index({ auth, projects, queryParams = null, success }) {
               {success}
             </div>
           )}
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-black">
               <div className="overflow-auto">
-                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                <table className="w-full text-sm text-left rtl:text-right text-black">
+                  <thead className="text-xs text-black uppercase bg-gray-50 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
                       <TableHeading
                         name="id"
@@ -88,7 +103,7 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       >
                         EMP-ID
                       </TableHeading>
-             
+
                       <TableHeading
                         name="name"
                         sort_field={queryParams.sort_field}
@@ -156,53 +171,50 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                       <th className="px-3 py-3 text-right">Actions</th>
                     </tr>
                   </thead>
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 border-b-2 border-gray-500">
+                  <thead className="w-full text-xs text-black uppercase bg-gray-50 border-b-2 border-gray-500">
                     <tr className="text-nowrap">
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
                       <th className="px-3 py-3">
-                        <TextInput
-                          className="w-full"
-                          defaultValue={queryParams.name}
-                          placeholder="Project Name"
-                          onBlur={(e) =>
-                            searchFieldChanged("name", e.target.value)
-                          }
-                          onKeyPress={(e) => onKeyPress("name", e)}
-                        />
+                      <SelectInput
+                      className="custom-select w-full border border-gray-200 rounded-md bg-white px-2 py-1 text-sm font-normal text-black focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
+                      defaultValue={queryParams.status}
+                      onChange={(e) => searchFieldChanged("status", e.target.value)}
+                      style={{
+                        boxShadow: "none",
+                        fontWeight: 400,
+                        minWidth: "120px",
+                        maxWidth: "180px"
+                      }}
+                    >
+                      <option value="">Select Status</option>
+                      <option value="pending">Pending</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="completed">Completed</option>
+                    </SelectInput>
                       </th>
-                      <th className="px-3 py-3">
-                        <SelectInput
-                          className="w-full"
-                          defaultValue={queryParams.status}
-                          onChange={(e) =>
-                            searchFieldChanged("status", e.target.value)
-                          }
-                        >
-                          <option value="">Select Status</option>
-                          <option value="pending">Pending</option>
-                          <option value="in_progress">In Progress</option>
-                          <option value="completed">Completed</option>
-                        </SelectInput>
-                      </th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
-                      <th className="px-3 py-3"></th>
                     </tr>
                   </thead>
                   <tbody>
                     {projects.data.map((project) => (
                       <tr
-                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                        className="bg-white border-b"
                         key={project.id}
                       >
                         <td className="px-3 py-2">{project.id}</td>
-                        <th className="px-3 py-2 text-gray-100 text-nowrap hover:underline">
-                          <Link href={route("project.show", project.id)}>
-                            {project.name}
-                          </Link>
-                        </th>
+                        <td className="px-3 py-2 text-black text-nowrap">
+                          {project.name}
+                        </td>
+                        {/*<th>{{project.phone}}</th>*/}
+                        {/*<th>{{project.work_contract}}</th>*/}
+                        {/*<th>{{project.gender}}</th>*/}
+                        {/*<th>{{project.position}}</th>*/}
+                        {/*<th>{{project.project}}</th>*/}
+                        {/*<th>{{project.role}}</th>*/}
+                        <th>Phon</th>
+                        <th>work_contract</th>
+                        <th>gender</th>
+                        <th>position</th>
+                        <th>project</th>
+                        <th>role</th>
                         <td className="px-3 py-2">
                           <span
                             className={
@@ -214,38 +226,20 @@ export default function Index({ auth, projects, queryParams = null, success }) {
                           </span>
                         </td>
                         <td className="px-3 py-2 text-nowrap">
-                          {project.created_at}
-                        </td>
-                        <td className="px-3 py-2 text-nowrap">
-                          {project.due_date}
-                        </td>
-                        <td className="px-3 py-2">{project.createdBy.name}</td>
-                        <td className="px-3 py-2 text-nowrap">
                           <Link
                             href={route("project.edit", project.id)}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline mx-1"
+                            className="font-medium text-blue-600 hover:underline mx-1"
                           >
                             Edit
                           </Link>
                           <button
                             onClick={(e) => deleteProject(project)}
-                            className="font-medium text-red-600 dark:text-red-500 hover:underline mx-1"
+                            className="font-medium text-red-600 hover:underline mx-1"
                           >
                             Delete
                           </button>
                         </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
-                        <td>
-                          <h1>s</h1>
-                        </td>
+
                       </tr>
                     ))}
                   </tbody>

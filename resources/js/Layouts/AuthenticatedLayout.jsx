@@ -11,8 +11,8 @@ export default function AuthenticatedLayout({ user, header, children }) {
     useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+    <div className="min-h-screen bg-gray-100">
+      <nav className="bg-white border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex">
@@ -21,7 +21,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                   <img
                     src={logo}
                     alt="logo"
-                    className="block h-20 w-auto fill-current text-gray-800 dark:text-gray-200"
+                    className="block h-20 w-auto fill-current text-gray-800"
                   />
                 </Link>
               </div>
@@ -40,29 +40,28 @@ export default function AuthenticatedLayout({ user, header, children }) {
                   Staff
                 </NavLink>
                 <NavLink
-                  href={route("task.index")}
-                  active={route().current("task.index")}
+                  href={route("department.index")}
+                  active={route().current("department.index")}
                 >
                   Department
                 </NavLink>
                 <NavLink
-                  href={route("task.index")}
-                  active={route().current("task.index")}
+                  href={route("evaluations.index")}
+                  active={route().current("evaluations.index")}
                 >
-                  Evaluation
+                  Evaluation Forms
                 </NavLink>
                 <NavLink
                   href={route("user.index")}
                   active={route().current("user.index")}
                 >
-                  Evaluation Forms
+                  Evaluator
                 </NavLink>
-                
                 <NavLink
-                  href={route("task.myTasks")}
-                  active={route().current("task.myTasks")}
+                  href={route("evaluations_room.index")}
+                  active={route().current("evaluations_room.index")}
                 >
-                  Admin User
+                  Evaluation Room
                 </NavLink>
               </div>
             </div>
@@ -74,7 +73,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                     <span className="inline-flex rounded-md">
                       <button
                         type="button"
-                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                       >
                         {user.name}
 
@@ -117,7 +116,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                     (previousState) => !previousState
                   )
                 }
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
               >
                 <svg
                   className="h-6 w-6"
@@ -163,9 +162,9 @@ export default function AuthenticatedLayout({ user, header, children }) {
             </ResponsiveNavLink>
           </div>
 
-          <div className="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+          <div className="pt-4 pb-1 border-t border-gray-200">
             <div className="px-4">
-              <div className="font-medium text-base text-gray-800 dark:text-gray-200">
+              <div className="font-medium text-base text-gray-800">
                 {user.name}
               </div>
               <div className="font-medium text-sm text-gray-500">
@@ -190,7 +189,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
       </nav>
 
       {header && (
-        <header className="bg-white dark:bg-gray-800 shadow">
+        <header className="bg-white shadow">
           <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             {header}
           </div>

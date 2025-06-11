@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('staff_evaluation_form', function (Blueprint $table) {
+        Schema::create('role', function (Blueprint $table) {
             $table->id();
-            $table->string('evaluation_title');
-            $table->longText("evaluation_description")->nullable();
-            $table->enum('evaluation_status', ['easy', 'hard']);
+            $table->string('name');
+            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('updated_by')->constrained('users');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('staff_evaluation_form');
+        Schema::dropIfExists('role');
     }
 };

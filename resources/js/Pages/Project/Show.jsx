@@ -11,7 +11,7 @@ export default function Show({ auth, success, project, tasks, queryParams }) {
       user={auth.user}
       header={
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+          <h2 className="font-semibold text-xl text-black leading-tight">
             {`Project "${project.name}"`}
           </h2>
           <Link
@@ -26,7 +26,7 @@ export default function Show({ auth, success, project, tasks, queryParams }) {
       <Head title={`Project "${project.name}"`} />
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div>
               <img
                 src={project.image_path}
@@ -34,7 +34,7 @@ export default function Show({ auth, success, project, tasks, queryParams }) {
                 className="w-full h-64 object-cover"
               />
             </div>
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+            <div className="p-6 text-black">
               <div className="grid gap-1 grid-cols-2 mt-2">
                 <div>
                   <div>
@@ -91,8 +91,8 @@ export default function Show({ auth, success, project, tasks, queryParams }) {
 
       <div className="pb-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div className="p-6 text-gray-900 dark:text-gray-100">
+          <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div className="p-6 text-black">
               <TasksTable
                 tasks={tasks}
                 success={success}
