@@ -22,4 +22,5 @@ echo "Migrations finished...."
 # php artisan serve --host=0.0.0.0 --port=8000
 chown -R $USER:www-data storage bootstrap/cache
 chmod -R 775 storage bootstrap/cache
+
 exec "$@"
