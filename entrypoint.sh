@@ -9,7 +9,7 @@ cd /var/www/html
 # Check if vendor directory exists and run composer install if not
 if [ ! -d "vendor" ]; then
     echo "Running composer install..."
-    composer install --no-dev --optimize-autoloader --prefer-dist
+    composer install 
 else
     echo "vendor directory already exists. Skipping composer install."
 fi
@@ -46,7 +46,7 @@ fi
 
 # Run Laravel migrations.
 echo "Running Laravel migrations..."
-php artisan migrate --seed --force
+php artisan migrate --seed
 
 # Clear and cache Laravel configurations
 echo "Clearing and caching Laravel configurations..."
