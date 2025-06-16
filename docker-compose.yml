@@ -9,7 +9,7 @@ services:
     env_file:
         - .env
     ports:
-      - "9000:9000"  # Maps container port 80 to host port 80
+      - "9000:9000" 
     volumes:
       - .:/var/www/html
     networks:
@@ -31,3 +31,4 @@ services:
 networks:
     ets_network:
         external: true
+
