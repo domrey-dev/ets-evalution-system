@@ -1,209 +1,206 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import SelectInput from "@/Components/SelectInput";
-import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
+import { Card, CardContent } from "@/Components/Card";
+import PrimaryButton from "@/Components/PrimaryButton";
+import SecondaryButton from "@/Components/SecondaryButton";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { 
+  ClipboardDocumentListIcon,
+  DocumentTextIcon,
+  ArrowLeftIcon,
+  PencilIcon
+} from "@heroicons/react/24/outline";
 
-export default function Create({ auth, task, projects, users }) {
-  const { data, setData, post, errors, reset } = useForm({
-    image: "",
-    name: task.name || "",
-    status: task.status || "",
-    description: task.description || "",
-    due_date: task.due_date || "",
-    project_id: task.project_id || "",
-    priority: task.priority || "",
-    assigned_user_id: task.assigned_user_id || "",
-    _method: "PUT",
+export default function Edit({ auth, evaluation }) {
+  const { data, setData, put, errors, processing } = useForm({
+    title: evaluation.title || "",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    post(route("task.update", task.id));
+    put(route("evaluations.update", evaluation.id));
   };
 
   return (
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Edit task "{task.name}"
-          </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+          <div className="flex items-center space-x-4">
+            <Link
+              href={route("evaluations.show", evaluation.id)}
+              className="inline-flex items-center p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
+            >
+              <ArrowLeftIcon className="w-5 h-5" />
+            </Link>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">Edit Evaluation</h2>
+              <p className="text-sm text-gray-600 mt-1">
+                Update the evaluation form details
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 text-sm text-gray-500">
+              <PencilIcon className="w-4 h-4" />
+              <span>Editing #{evaluation.id}</span>
+            </div>
+          </div>
         </div>
       }
     >
-      <Head title="Tasks" />
+      <Head title={`Edit Evaluation: ${evaluation.title}`} />
 
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <form
-              onSubmit={onSubmit}
-              className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
-            >
-              {task.image_path && (
-                <div className="mb-4">
-                  <img src={task.image_path} className="w-64" />
+      <div className="py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <form onSubmit={onSubmit} className="space-y-6">
+            {/* Evaluation Information Section */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="border-b border-gray-200 pb-4 mb-6">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <DocumentTextIcon className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900">Evaluation Information</h3>
+                      <p className="text-sm text-gray-600">Update the evaluation form details</p>
+                    </div>
+                  </div>
                 </div>
-              )}
-              <div>
-                <InputLabel htmlFor="task_project_id" value="Project" />
 
-                <SelectInput
-                  name="project_id"
-                  id="task_project_id"
-                  value={data.project_id}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("project_id", e.target.value)}
+                {/* Current Evaluation Info */}
+                <div className="mb-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <ClipboardDocumentListIcon className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-medium text-gray-900">Current Evaluation</h4>
+                      <p className="text-sm text-gray-600">#{evaluation.id} - {evaluation.title}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Khmer Header */}
+                <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h4 className="text-lg font-medium text-blue-900 mb-2">
+                    ផ្នែកទី២: ចំណុចវាយតម្លៃ ការអនុវត្តការងារជាក់ស្តែងយោបល់បន្ថែម និងការឆ្លើយតបរបស់ប្រធានសាមី
+                  </h4>
+                  <p className="text-sm text-blue-700">
+                    Section 2: Assessment Points, Practical Work Implementation, Additional Comments and Department Head Responses
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 gap-6">
+                  {/* Evaluation Title */}
+                  <div>
+                    <InputLabel 
+                      htmlFor="evaluation_title" 
+                      value="Evaluation Title / កម្រងសំណួរទី" 
+                      className="text-sm font-medium text-gray-700 mb-2" 
+                    />
+                    <div className="relative">
+                      <TextInput
+                        id="evaluation_title"
+                        type="text"
+                        name="title"
+                        value={data.title}
+                        className="mt-1 block w-full text-sm border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Enter evaluation title (e.g., Monthly Performance Review, Annual Assessment)"
+                        onChange={(e) => setData("title", e.target.value)}
+                        required
+                      />
+                    </div>
+                    <InputError message={errors.title} className="mt-2" />
+                    <p className="mt-2 text-xs text-gray-500">
+                      Choose a descriptive title that clearly identifies the purpose and scope of this evaluation.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Evaluation Metadata */}
+            <Card>
+              <CardContent className="p-6">
+                <div className="border-b border-gray-200 pb-4 mb-6">
+                  <h3 className="text-lg font-semibold text-gray-900">Evaluation Metadata</h3>
+                  <p className="text-sm text-gray-600">Information about this evaluation's history</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                      Created By
+                    </label>
+                    <p className="text-sm text-gray-900 p-3 bg-gray-50 rounded-lg">
+                      {evaluation.createdBy?.name || 'Unknown User'}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                      Last Updated By
+                    </label>
+                    <p className="text-sm text-gray-900 p-3 bg-gray-50 rounded-lg">
+                      {evaluation.updatedBy?.name || 'Unknown User'}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                      Created Date
+                    </label>
+                    <p className="text-sm text-gray-900 p-3 bg-gray-50 rounded-lg">
+                      {evaluation.created_at}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium text-gray-700 block mb-2">
+                      Last Updated
+                    </label>
+                    <p className="text-sm text-gray-900 p-3 bg-gray-50 rounded-lg">
+                      {evaluation.updated_at}
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Form Actions */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0 pt-6 border-t border-gray-200">
+              <div className="text-sm text-gray-500">
+                <span className="font-medium">Note:</span> Changes will be saved immediately upon submission.
+              </div>
+              
+              <div className="flex items-center space-x-3">
+                <SecondaryButton asChild>
+                  <Link href={route("evaluations.show", evaluation.id)}>
+                    Cancel
+                  </Link>
+                </SecondaryButton>
+                
+                <PrimaryButton 
+                  type="submit" 
+                  disabled={processing}
+                  className="bg-emerald-600 hover:bg-emerald-700 focus:ring-emerald-500"
                 >
-                  <option value="">Select Project</option>
-                  {projects.data.map((project) => (
-                    <option value={project.id} key={project.id}>
-                      {project.name}
-                    </option>
-                  ))}
-                </SelectInput>
-
-                <InputError message={errors.project_id} className="mt-2" />
+                  {processing ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Updating...</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center space-x-2">
+                      <PencilIcon className="w-4 h-4" />
+                      <span>Update Evaluation</span>
+                    </div>
+                  )}
+                </PrimaryButton>
               </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_image_path" value="Task Image" />
-                <TextInput
-                  id="task_image_path"
-                  type="file"
-                  name="image"
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("image", e.target.files[0])}
-                />
-                <InputError message={errors.image} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_name" value="Task Name" />
-
-                <TextInput
-                  id="task_name"
-                  type="text"
-                  name="name"
-                  value={data.name}
-                  className="mt-1 block w-full"
-                  isFocused={true}
-                  onChange={(e) => setData("name", e.target.value)}
-                />
-
-                <InputError message={errors.name} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel
-                  htmlFor="task_description"
-                  value="Task Description"
-                />
-
-                <TextAreaInput
-                  id="task_description"
-                  name="description"
-                  value={data.description}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("description", e.target.value)}
-                />
-
-                <InputError message={errors.description} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_due_date" value="Task Deadline" />
-
-                <TextInput
-                  id="task_due_date"
-                  type="date"
-                  name="due_date"
-                  value={data.due_date}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("due_date", e.target.value)}
-                />
-
-                <InputError message={errors.due_date} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_status" value="Task Status" />
-
-                <SelectInput
-                  name="status"
-                  id="task_status"
-                  value={data.status}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("status", e.target.value)}
-                >
-                  <option value="">Select Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                </SelectInput>
-
-                <InputError message={errors.task_status} className="mt-2" />
-              </div>
-
-              <div className="mt-4">
-                <InputLabel htmlFor="task_priority" value="Task Priority" />
-
-                <SelectInput
-                  name="priority"
-                  id="task_priority"
-                  value={data.priority}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("priority", e.target.value)}
-                >
-                  <option value="">Select Priority</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </SelectInput>
-
-                <InputError message={errors.priority} className="mt-2" />
-              </div>
-
-              <div className="mt-4">
-                <InputLabel
-                  htmlFor="task_assigned_user"
-                  value="Assigned User"
-                />
-
-                <SelectInput
-                  name="assigned_user_id"
-                  id="task_assigned_user"
-                  value={data.assigned_user_id}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("assigned_user_id", e.target.value)}
-                >
-                  <option value="">Select User</option>
-                  {users.data.map((user) => (
-                    <option value={user.id} key={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-                </SelectInput>
-
-                <InputError
-                  message={errors.assigned_user_id}
-                  className="mt-2"
-                />
-              </div>
-
-              <div className="mt-4 text-right">
-                <Link
-                  href={route("task.index")}
-                  className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200 mr-2"
-                >
-                  Cancel
-                </Link>
-                <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
-                  Submit
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </AuthenticatedLayout>

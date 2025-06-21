@@ -32,9 +32,20 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => time()
         ]);
 
+        // Seed departments
+        $this->call(DepartmentSeeder::class);
+
+        // Create projects with tasks
+        // Change these numbers as needed:
+        $numberOfProjects = 15;  // Change this number
+        $tasksPerProject = 8;    // Change this number
+        
         Project::factory()
-            ->count(10)
-            ->hasTasks(10)
+            ->count($numberOfProjects)
+            ->hasTasks($tasksPerProject)
             ->create();
+            
+        $this->command->info("Created {$numberOfProjects} projects with {$tasksPerProject} tasks each.");
+        $this->command->info("Total tasks: " . ($numberOfProjects * $tasksPerProject));
     }
 }
