@@ -1,209 +1,158 @@
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
-import SelectInput from "@/Components/SelectInput";
 import TextAreaInput from "@/Components/TextAreaInput";
 import TextInput from "@/Components/TextInput";
+import { Card, CardContent } from "@/Components/Card";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
+import { 
+  BuildingOfficeIcon,
+  DocumentTextIcon,
+  PencilIcon,
+  XMarkIcon
+} from "@heroicons/react/24/outline";
 
-export default function Create({ auth, task, projects, users }) {
-  const { data, setData, post, errors, reset } = useForm({
-    image: "",
-    name: task.name || "",
-    status: task.status || "",
-    description: task.description || "",
-    due_date: task.due_date || "",
-    project_id: task.project_id || "",
-    priority: task.priority || "",
-    assigned_user_id: task.assigned_user_id || "",
+export default function Edit({ auth, department }) {
+  const { data, setData, post, errors, reset, processing } = useForm({
+    name: department.name || "",
+    description: department.description || "",
     _method: "PUT",
   });
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    post(route("task.update", task.id));
+    post(route("department.update", department.id));
   };
 
   return (
     <AuthenticatedLayout
       user={auth.user}
       header={
-        <div className="flex justify-between items-center">
-          <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Edit task "{task.name}"
-          </h2>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+          <div>
+            <h2 className="text-2xl font-bold text-gray-900">Edit Department</h2>
+            <p className="text-sm text-gray-600 mt-1">
+              Update "{department.name}" department details
+            </p>
+          </div>
+          <Link
+            href={route("department.show", department.id)}
+            className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-all duration-200"
+          >
+            <XMarkIcon className="w-4 h-4 mr-2" />
+            Cancel
+          </Link>
         </div>
       }
     >
-      <Head title="Tasks" />
+      <Head title={`Edit Department - ${department.name}`} />
 
-      <div className="py-12">
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <div className="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <form
-              onSubmit={onSubmit}
-              className="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg"
-            >
-              {task.image_path && (
-                <div className="mb-4">
-                  <img src={task.image_path} className="w-64" />
+      <div className="py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Card className="overflow-hidden">
+            <form onSubmit={onSubmit} className="divide-y divide-gray-200">
+              {/* Department Header */}
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <div className="text-center">
+                    <div className="mx-auto w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mb-4">
+                      <BuildingOfficeIcon className="w-12 h-12 text-emerald-600" />
+                    </div>
+                    <h3 className="text-lg font-medium text-gray-900">Update Department Information</h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Modify the department details and information
+                    </p>
+                  </div>
                 </div>
-              )}
-              <div>
-                <InputLabel htmlFor="task_project_id" value="Project" />
+              </CardContent>
 
-                <SelectInput
-                  name="project_id"
-                  id="task_project_id"
-                  value={data.project_id}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("project_id", e.target.value)}
-                >
-                  <option value="">Select Project</option>
-                  {projects.data.map((project) => (
-                    <option value={project.id} key={project.id}>
-                      {project.name}
-                    </option>
-                  ))}
-                </SelectInput>
+              {/* Department Details Section */}
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <div className="grid grid-cols-1 gap-6">
+                    <div>
+                      <InputLabel 
+                        htmlFor="department_name" 
+                        value="Department Name" 
+                        className="text-sm font-medium text-gray-700" 
+                      />
+                      <div className="mt-1 relative">
+                        <TextInput
+                          id="department_name"
+                          type="text"
+                          name="name"
+                          value={data.name}
+                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                          placeholder="e.g., Human Resources, Engineering, Marketing"
+                          isFocused={true}
+                          onChange={(e) => setData("name", e.target.value)}
+                        />
+                      </div>
+                      {errors.name && (
+                        <InputError message={errors.name} className="mt-2" />
+                      )}
+                    </div>
 
-                <InputError message={errors.project_id} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_image_path" value="Task Image" />
-                <TextInput
-                  id="task_image_path"
-                  type="file"
-                  name="image"
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("image", e.target.files[0])}
-                />
-                <InputError message={errors.image} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_name" value="Task Name" />
+                    <div>
+                      <InputLabel 
+                        htmlFor="department_description" 
+                        value="Department Description" 
+                        className="text-sm font-medium text-gray-700" 
+                      />
+                      <div className="mt-1 relative">
+                        <DocumentTextIcon className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+                        <TextAreaInput
+                          id="department_description"
+                          name="description"
+                          value={data.description}
+                          className="pl-10 block w-full rounded-lg border-gray-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500"
+                          rows={4}
+                          placeholder="Describe the department's role, responsibilities, and objectives..."
+                          onChange={(e) => setData("description", e.target.value)}
+                        />
+                      </div>
+                      {errors.description && (
+                        <InputError message={errors.description} className="mt-2" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
 
-                <TextInput
-                  id="task_name"
-                  type="text"
-                  name="name"
-                  value={data.name}
-                  className="mt-1 block w-full"
-                  isFocused={true}
-                  onChange={(e) => setData("name", e.target.value)}
-                />
-
-                <InputError message={errors.name} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel
-                  htmlFor="task_description"
-                  value="Task Description"
-                />
-
-                <TextAreaInput
-                  id="task_description"
-                  name="description"
-                  value={data.description}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("description", e.target.value)}
-                />
-
-                <InputError message={errors.description} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_due_date" value="Task Deadline" />
-
-                <TextInput
-                  id="task_due_date"
-                  type="date"
-                  name="due_date"
-                  value={data.due_date}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("due_date", e.target.value)}
-                />
-
-                <InputError message={errors.due_date} className="mt-2" />
-              </div>
-              <div className="mt-4">
-                <InputLabel htmlFor="task_status" value="Task Status" />
-
-                <SelectInput
-                  name="status"
-                  id="task_status"
-                  value={data.status}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("status", e.target.value)}
-                >
-                  <option value="">Select Status</option>
-                  <option value="pending">Pending</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="completed">Completed</option>
-                </SelectInput>
-
-                <InputError message={errors.task_status} className="mt-2" />
-              </div>
-
-              <div className="mt-4">
-                <InputLabel htmlFor="task_priority" value="Task Priority" />
-
-                <SelectInput
-                  name="priority"
-                  id="task_priority"
-                  value={data.priority}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("priority", e.target.value)}
-                >
-                  <option value="">Select Priority</option>
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </SelectInput>
-
-                <InputError message={errors.priority} className="mt-2" />
-              </div>
-
-              <div className="mt-4">
-                <InputLabel
-                  htmlFor="task_assigned_user"
-                  value="Assigned User"
-                />
-
-                <SelectInput
-                  name="assigned_user_id"
-                  id="task_assigned_user"
-                  value={data.assigned_user_id}
-                  className="mt-1 block w-full"
-                  onChange={(e) => setData("assigned_user_id", e.target.value)}
-                >
-                  <option value="">Select User</option>
-                  {users.data.map((user) => (
-                    <option value={user.id} key={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-                </SelectInput>
-
-                <InputError
-                  message={errors.assigned_user_id}
-                  className="mt-2"
-                />
-              </div>
-
-              <div className="mt-4 text-right">
-                <Link
-                  href={route("task.index")}
-                  className="bg-gray-100 py-1 px-3 text-gray-800 rounded shadow transition-all hover:bg-gray-200 mr-2"
-                >
-                  Cancel
-                </Link>
-                <button className="bg-emerald-500 py-1 px-3 text-white rounded shadow transition-all hover:bg-emerald-600">
-                  Submit
-                </button>
-              </div>
+              {/* Form Actions */}
+              <CardContent className="px-6 py-4 bg-gray-50">
+                <div className="flex items-center justify-end space-x-3">
+                  <Link
+                    href={route("department.show", department.id)}
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-all"
+                  >
+                    <XMarkIcon className="w-4 h-4 mr-2" />
+                    Cancel
+                  </Link>
+                  <button
+                    type="submit"
+                    disabled={processing}
+                    className="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  >
+                    {processing ? (
+                      <>
+                        <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Updating...
+                      </>
+                    ) : (
+                      <>
+                        <PencilIcon className="w-4 h-4 mr-2" />
+                        Update Department
+                      </>
+                    )}
+                  </button>
+                </div>
+              </CardContent>
             </form>
-          </div>
+          </Card>
         </div>
       </div>
     </AuthenticatedLayout>

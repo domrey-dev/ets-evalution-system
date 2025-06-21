@@ -37,7 +37,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
                   href={route("project.index")}
                   active={route().current("project.index")}
                 >
-                  Staff
+                  Projects
                 </NavLink>
                 <NavLink
                   href={route("department.index")}
@@ -159,6 +159,36 @@ export default function AuthenticatedLayout({ user, header, children }) {
               active={route().current("dashboard")}
             >
               Dashboard
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              href={route("project.index")}
+              active={route().current("project.index")}
+            >
+              Projects
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              href={route("department.index")}
+              active={route().current("department.index")}
+            >
+              Department
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              href={route("evaluations.index")}
+              active={route().current("evaluations.index")}
+            >
+              Evaluation Forms
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              href={route("user.index")}
+              active={route().current("user.index")}
+            >
+              Evaluator
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              href={route("evaluations_room.index")}
+              active={route().current("evaluations_room.index")}
+            >
+              Evaluation Room
             </ResponsiveNavLink>
           </div>
 

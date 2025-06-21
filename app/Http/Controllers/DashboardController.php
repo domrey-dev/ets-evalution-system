@@ -4,64 +4,107 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Models\Project;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = auth()->user();
-        $totalPendingTasks = Task::query()
-            ->where('status', 'pending')
-            ->count();
-        $myPendingTasks = Task::query()
-            ->where('status', 'pending')
-            ->where('assigned_user_id', $user->id)
-            ->count();
+        
+        // Base queries
+        $pendingTasksQuery = Task::query()->where('status', 'pending');
+        $progressTasksQuery = Task::query()->where('status', 'in_progress');
+        $completedTasksQuery = Task::query()->where('status', 'completed');
+        
+        // Apply date filters if provided
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            // Custom date range filtering
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+            
+            $pendingTasksQuery->whereBetween('created_at', [$startDate, $endDate]);
+            $progressTasksQuery->whereBetween('created_at', [$startDate, $endDate]);
+            $completedTasksQuery->whereBetween('created_at', [$startDate, $endDate]);
+        } elseif ($request->filled('month')) {
+            // Month filtering
+            $month = $request->input('month');
+            $monthNumber = date('m', strtotime("1 $month 2023"));
+            
+            $pendingTasksQuery->whereMonth('created_at', $monthNumber);
+            $progressTasksQuery->whereMonth('created_at', $monthNumber);
+            $completedTasksQuery->whereMonth('created_at', $monthNumber);
+        }
+        
+        // Apply project filter if provided
+        if ($request->filled('project')) {
+            $projectId = $request->input('project');
+            
+            $pendingTasksQuery->where('project_id', $projectId);
+            $progressTasksQuery->where('project_id', $projectId);
+            $completedTasksQuery->where('project_id', $projectId);
+        }
+        
+        // Apply department filter if provided
+        if ($request->filled('department')) {
+            $departmentId = $request->input('department');
+            
+            // Filter tasks by users who belong to the selected department
+            $pendingTasksQuery->whereHas('assignedUser', function($query) use ($departmentId) {
+                $query->where('department', $departmentId);
+            });
+            $progressTasksQuery->whereHas('assignedUser', function($query) use ($departmentId) {
+                $query->where('department', $departmentId);
+            });
+            $completedTasksQuery->whereHas('assignedUser', function($query) use ($departmentId) {
+                $query->where('department', $departmentId);
+            });
+        }
+        
+        // Get the counts
+        $totalPendingTasks = $pendingTasksQuery->count();
+        $myPendingTasks = $pendingTasksQuery->clone()->where('assigned_user_id', $user->id)->count();
+        
+        $totalProgressTasks = $progressTasksQuery->count();
+        $myProgressTasks = $progressTasksQuery->clone()->where('assigned_user_id', $user->id)->count();
+        
+        $totalCompletedTasks = $completedTasksQuery->count();
+        $myCompletedTasks = $completedTasksQuery->clone()->where('assigned_user_id', $user->id)->count();
 
-        $totalProgressTasks = Task::query()
-            ->where('status', 'in_progress')
-            ->count();
-        $myProgressTasks = Task::query()
-            ->where('status', 'in_progress')
-            ->where('assigned_user_id', $user->id)
-            ->count();
-
-
-        $totalCompletedTasks = Task::query()
-            ->where('status', 'completed')
-            ->count();
-        $myCompletedTasks = Task::query()
-            ->where('status', 'completed')
-            ->where('assigned_user_id', $user->id)
-            ->count();
-
-        $activeTasks = Task::query()
+        // Get active tasks (using the filters)
+        $activeTasksQuery = Task::query()
             ->whereIn('status', ['pending', 'in_progress'])
-            ->where('assigned_user_id', $user->id)
-            ->limit(10)
-            ->get();
+            ->where('assigned_user_id', $user->id);
+            
+        // Apply the same filters to active tasks
+        if ($request->filled('project')) {
+            $activeTasksQuery->where('project_id', $request->input('project'));
+        }
+        
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $activeTasksQuery->whereBetween('created_at', [
+                $request->input('start_date'), 
+                $request->input('end_date')
+            ]);
+        } elseif ($request->filled('month')) {
+            $month = $request->input('month');
+            $monthNumber = date('m', strtotime("1 $month 2023"));
+            $activeTasksQuery->whereMonth('created_at', $monthNumber);
+        }
+        
+        $activeTasks = $activeTasksQuery->limit(10)->get();
 
-        $position = [
-            'Software Engineer',
-            'Sales Executive',
-            'Marketing Manager',
-            'HR Manager',
-            'Finance Analyst',
-            'Customer Support Specialist',
-            'IT Support',
-            'Graphic Designer'
-        ];
+        $projects = Project::all(['id', 'name']);
 
-        $departments = [
-            'Engineering',
-            'Sales',
-            'Marketing',
-            'Human Resources',
-            'Finance',
-            'Customer Support',
-            'Information Technology'
-        ];
+        // Fetch departments from database and format for dropdown
+        $departments = Department::all(['id', 'name'])->map(function ($dept) {
+            return [
+                'value' => $dept->name, // Use department name as value for filtering users
+                'label' => $dept->name
+            ];
+        });
 
         $gradeDistribution = [
             'A' => 10,
@@ -148,7 +191,7 @@ class DashboardController extends Controller
                 'totalCompletedTasks',
                 'myCompletedTasks',
                 'activeTasks',
-                'position',
+                'projects',
                 'departments',
                 'gradeDistribution',
                 'monthlyPerformance',
