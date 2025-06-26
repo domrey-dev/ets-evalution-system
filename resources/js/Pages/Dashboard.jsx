@@ -94,7 +94,7 @@ export default function Dashboard({
 
   return (
     <AuthenticatedLayout
-      user={auth.user}
+      auth={auth}
       header={
         <div className="flex justify-between items-center">
           <h2 className="font-semibold text-xl text-gray-800 leading-tight">
