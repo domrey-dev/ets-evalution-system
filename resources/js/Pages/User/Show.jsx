@@ -45,12 +45,12 @@ export default function Show({ auth, user }) {
 
   return (
     <AuthenticatedLayout
-      user={auth.user}
+      auth={auth}
       header={
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-4">
             <Link
-              href={route("user.index")}
+              href={route("users.index")}
               className="inline-flex items-center p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
             >
               <ArrowLeftIcon className="w-5 h-5" />
@@ -309,7 +309,7 @@ export default function Show({ auth, user }) {
                       Edit Profile
                     </Link>
                     <Link
-                      href={route("user.index")}
+                      href={route("users.index")}
                       className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-200 transition-all"
                     >
                       <UserIcon className="w-4 h-4 mr-2" />

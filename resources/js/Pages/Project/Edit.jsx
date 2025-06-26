@@ -32,7 +32,7 @@ export default function Edit({ auth, project }) {
 
   return (
     <AuthenticatedLayout
-      user={auth.user}
+        auth={auth}
       header={
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
           <div>

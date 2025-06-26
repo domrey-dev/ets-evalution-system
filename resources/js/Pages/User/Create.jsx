@@ -82,12 +82,12 @@ export default function Create({ auth }) {
 
   return (
     <AuthenticatedLayout
-      user={auth.user}
+        auth={auth}
       header={
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
           <div className="flex items-center space-x-4">
             <Link
-              href={route("user.index")}
+              href={route("users.index")}
               className="inline-flex items-center p-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
             >
               <ArrowLeftIcon className="w-5 h-5" />
@@ -492,7 +492,7 @@ export default function Create({ auth }) {
               
               <div className="flex items-center space-x-3">
                 <SecondaryButton asChild>
-                  <Link href={route("user.index")}>
+                  <Link href={route("users.index")}>
                     Cancel
                   </Link>
                 </SecondaryButton>

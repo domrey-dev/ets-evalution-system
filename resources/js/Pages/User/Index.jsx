@@ -37,7 +37,7 @@ export default function Index({ auth, users, queryParams = null, success, roles 
     setFilters(clearedFilters);
     
     // Automatically apply cleared filters
-    router.get(route("user.index"), {}, {
+    router.get(route("users.index"), {}, {
       preserveState: true,
       replace: true,
     });
@@ -52,7 +52,7 @@ export default function Index({ auth, users, queryParams = null, success, roles 
       }
     });
 
-    router.get(route("user.index"), filterData, {
+    router.get(route("users.index"), filterData, {
       preserveState: true,
       replace: true,
     });
@@ -100,7 +100,7 @@ export default function Index({ auth, users, queryParams = null, success, roles 
 
   return (
     <AuthenticatedLayout
-      user={auth.user}
+        auth={auth}
       header={
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
           <div>
