@@ -9,10 +9,16 @@ cd /var/www/html
 # Check if vendor directory exists and run composer install if not
 if [ ! -d "vendor" ]; then
     echo "Running composer install..."
-    composer install 
+    composer install
 else
     echo "vendor directory already exists. Skipping composer install."
 fi
+
+if [ ! -f .env ]; then
+    cp .env.example .env
+fi
+
+# php artisan key:generate --force
 
 # If not, generate it. This is crucial for Laravel's security features.
 if grep -qE '^APP_KEY=\s*$' .env || ! grep -q '^APP_KEY=' .env; then
@@ -21,12 +27,6 @@ if grep -qE '^APP_KEY=\s*$' .env || ! grep -q '^APP_KEY=' .env; then
 else
     echo "Application key already exists."
 fi
-
-# if [ ! -f .env ]; then
-#     cp .env.example .env
-# fi
-
-# php artisan key:generate --force
 
 # Check if node_modules directory exists and run npm install if not
 if [ ! -d "node_modules" ]; then
