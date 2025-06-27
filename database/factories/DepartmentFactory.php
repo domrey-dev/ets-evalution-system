@@ -19,6 +19,8 @@ class DepartmentFactory extends Factory
         return [
             'name' => fake()->company(),
             'description' => fake()->paragraph(),
+            'created_by' => 1, // Assuming user with ID 1 exists
+            'updated_by' => 1, // Assuming user with ID 1 exists
         ];
     }
 }
