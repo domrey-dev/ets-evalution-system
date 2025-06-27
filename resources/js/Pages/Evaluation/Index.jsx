@@ -182,7 +182,7 @@ export default function Index({ auth, success, evaluations, queryParams = null }
                         <td className="px-2 sm:px-4 py-3 sm:py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <ChartBarIcon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mr-1 sm:mr-2" />
-                            <span className="text-xs sm:text-sm text-gray-900">0</span>
+                            <span className="text-xs sm:text-sm text-gray-900"> {evaluation.total_responses || 0}</span>
                           </div>
                         </td>
                         <td className="px-2 sm:px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">

@@ -19,6 +19,7 @@ class EvaluationResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'total_responses' => $this->whenLoaded('evaluationResult')->count(),
             'createdBy' => new UserResource($this->createdBy),
             'updatedBy' => new UserResource($this->updatedBy),
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),

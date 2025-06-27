@@ -17,10 +17,10 @@ class EvaluationController extends Controller
      */
     public function index()
     {
-        $evaluations = Evaluations::with(['createdBy', 'updatedBy'])
+        $evaluations = Evaluations::with(['createdBy', 'updatedBy', 'evaluationResult'])
+            //with the evaluationResult relationship to get the count of responses
             ->orderBy('created_at', 'desc')
             ->get();
-
         return Inertia::render('Evaluation/Index', [
             'evaluations' => EvaluationResource::collection($evaluations),
         ]);
