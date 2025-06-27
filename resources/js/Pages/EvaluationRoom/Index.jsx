@@ -106,79 +106,172 @@ export default function EvaluationRoom({
         }
     }, [criteria]);
 
-    // Handle data changes
+    // Handle data changes from EvaluationModel
     const handleDataChange = (newData) => {
-        setEvaluationData(prev => ({...prev, ...newData}));
+        setEvaluationData(prev => ({ ...prev, ...newData }));
+    };
+    const handleStaffChange = (updatedItems) => {
+        setEvaluations(prev => {
+            // Safely get current staff evaluation or initialize
+            const currentStaff = prev.staff || {
+                evaluation_type: EVALUATION_TYPES.STAFF,
+                child_evaluations: criteria.map(item => ({
+                    evaluation_id: item.id,
+                    feedback: '',
+                    rating: null
+                }))
+            };
+
+            // Safely get existing evaluations
+            const existingEvaluations = currentStaff.child_evaluations || [];
+
+            // Convert updates to array
+            const updatesArray = Object.values(updatedItems);
+
+            // Create a map of existing evaluations
+            const evaluationsMap = new Map(
+                existingEvaluations.map(item => [item.evaluation_id, item])
+            );
+
+            // Apply updates
+            updatesArray.forEach(update => {
+                evaluationsMap.set(update.evaluation_id, {
+                    ...(evaluationsMap.get(update.evaluation_id) || {
+                        evaluation_id: update.evaluation_id,
+                        feedback: '',
+                        rating: null
+                    }),
+                    ...update
+                });
+            });
+
+            return {
+                ...prev,
+                staff: {
+                    ...currentStaff,
+                    child_evaluations: Array.from(evaluationsMap.values())
+                }
+            };
+        });
     };
 
-    const handleStaffChange = (data) => {
-        setEvaluations(prev => ({
-            ...prev,
-            staff: {
-                ...prev.staff,
-                child_evaluations: prev.staff?.child_evaluations?.map(item => ({
-                    ...item,
-                    ...data[item.evaluation_id]
-                })) || []
-            }
-        }));
-        setValidationErrors(prev => ({...prev, staff: null}));
+    const handleSelfChange = (updatedItems) => {
+        setEvaluations(prev => {
+            // Safely get current self evaluation or initialize
+            const currentSelf = prev.self || {
+                evaluation_type: EVALUATION_TYPES.SELF,
+                child_evaluations: criteria.map(item => ({
+                    evaluation_id: item.id,
+                    feedback: '',
+                    rating: null
+                }))
+            };
+
+            // Safely get existing evaluations
+            const existingEvaluations = currentSelf.child_evaluations || [];
+
+            // Convert updates to array
+            const updatesArray = Object.values(updatedItems);
+
+            // Create a map of existing evaluations
+            const evaluationsMap = new Map(
+                existingEvaluations.map(item => [item.evaluation_id, item])
+            );
+
+            // Apply updates
+            updatesArray.forEach(update => {
+                evaluationsMap.set(update.evaluation_id, {
+                    ...(evaluationsMap.get(update.evaluation_id) || {
+                        evaluation_id: update.evaluation_id,
+                        feedback: '',
+                        rating: null
+                    }),
+                    ...update
+                });
+            });
+
+            return {
+                ...prev,
+                self: {
+                    ...currentSelf,
+                    child_evaluations: Array.from(evaluationsMap.values())
+                }
+            };
+        });
     };
 
-    const handleSelfChange = (data) => {
-        setEvaluations(prev => ({
-            ...prev,
-            self: {
-                ...prev.self,
-                child_evaluations: prev.self?.child_evaluations?.map(item => ({
-                    ...item,
-                    ...data[item.evaluation_id]
-                })) || []
-            }
-        }));
-        setValidationErrors(prev => ({...prev, self: null}));
+    const handleFinalChange = (updatedItems) => {
+        setEvaluations(prev => {
+            // Safely get current self evaluation or initialize
+            const currentFinal = prev.final || {
+                evaluation_type: EVALUATION_TYPES.FINAL,
+                child_evaluations: criteria.map(item => ({
+                    evaluation_id: item.id,
+                    feedback: '',
+                    rating: null
+                }))
+            };
+
+            // Safely get existing evaluations
+            const existingEvaluations = currentFinal.child_evaluations || [];
+
+            // Convert updates to array
+            const updatesArray = Object.values(updatedItems);
+
+            // Create a map of existing evaluations
+            const evaluationsMap = new Map(
+                existingEvaluations.map(item => [item.evaluation_id, item])
+            );
+
+            // Apply updates
+            updatesArray.forEach(update => {
+                evaluationsMap.set(update.evaluation_id, {
+                    ...(evaluationsMap.get(update.evaluation_id) || {
+                        evaluation_id: update.evaluation_id,
+                        feedback: '',
+                        rating: null
+                    }),
+                    ...update
+                });
+            });
+
+            return {
+                ...prev,
+                final: {
+                    ...currentFinal,
+                    child_evaluations: Array.from(evaluationsMap.values())
+                }
+            };
+        });
     };
 
-    const handleFinalChange = (data) => {
-        setEvaluations(prev => ({
-            ...prev,
-            final: {
-                ...prev.final,
-                child_evaluations: prev.final?.child_evaluations?.map(item => ({
-                    ...item,
-                    ...data[item.evaluation_id]
-                })) || []
-            }
-        }));
-        setValidationErrors(prev => ({...prev, final: null}));
-    };
 
     // Form submission
     const handleSubmit = async () => {
         setIsSubmitting(true);
-        setSubmitError(null);
-        setValidationErrors({});
 
         try {
+            const activeEvaluation = evaluations[activeTab];
+
+            if (!activeEvaluation?.child_evaluations?.length) {
+                throw new Error('No evaluation data to submit');
+            }
+
             const payload = {
                 model_data: evaluationData,
                 evaluation_type: activeTab,
-                ...(activeTab === EVALUATION_TYPES.STAFF && {evaluation: evaluations.staff}),
-                ...(activeTab === EVALUATION_TYPES.SELF && {evaluation: evaluations.self}),
-                ...(activeTab === EVALUATION_TYPES.FINAL && {evaluation: evaluations.final}),
+                evaluation: {
+                    ...activeEvaluation,
+                    child_evaluations: activeEvaluation.child_evaluations
+                },
                 criteria: criteria
             };
 
-            await router.post(route("evaluations_room.store"), payload, {
-                onSuccess: () => {
-                    // Success handled by Inertia's flash messages
-                },
-                onError: (errors) => {
-                    setValidationErrors(errors);
-                }
-            });
+            console.log('Submission payload:', payload);
+            await router.post(route("evaluations_room.store"), payload);
+
         } catch (error) {
-            setSubmitError(error.message || 'An unexpected error occurred');
+            setSubmitError(error.message);
         } finally {
             setIsSubmitting(false);
         }

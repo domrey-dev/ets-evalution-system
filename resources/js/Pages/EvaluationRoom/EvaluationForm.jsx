@@ -4,44 +4,48 @@ export default function EvaluationForm({
                                          evaluationType,
                                          onChange,
                                          data = {},
-                                         criteria: criteriaProp = [], // Renamed prop to avoid conflict
+                                         criteria,
                                          readOnly = false,
                                          errors = {}
                                        }) {
-  const [formData, setFormData] = useState({});
-  const [criteria, setCriteria] = useState(criteriaProp);
-  useEffect(() => {
-    // Initialize form data based on criteria
-    const initialFormData = {};
-    criteria.forEach(item => {
-      initialFormData[item.id] = {
-        feedback: data[item.id]?.feedback || '',
-        rating: data[item.id]?.rating || ''
-      };
-    });
-    setFormData(initialFormData);
-  }, [data, criteria]);
+    // Initialize formData as a controlled component
+    const [formData, setFormData] = useState({});
 
-  useEffect(() => {
-    // Update criteria if prop changes
-    setCriteria(criteriaProp);
-  }, [criteriaProp]);
+    // Only initialize formData once when criteria loads
+    useEffect(() => {
+        if (criteria.length && Object.keys(formData).length === 0) {
+            const initialData = {};
+            criteria.forEach(item => {
+                initialData[item.id] = {
+                    feedback: data[item.id]?.feedback || '',
+                    rating: data[item.id]?.rating || ''
+                };
+            });
+            setFormData(initialData);
+        }
+    }, [criteria]); // Only depend on criteria
 
-  const handleInputChange = (criteriaId, field, value) => {
-    const updated = {
-      ...formData,
-      [criteriaId]: {
-        ...formData[criteriaId],
-        [field]: value
-      }
+    // In EvaluationForm.jsx
+    const handleInputChange = (criteriaId, field, value) => {
+        const updated = {
+            ...formData,
+            [criteriaId]: {
+                ...formData[criteriaId],
+                [field]: value,
+                evaluation_id: criteriaId
+            }
+        };
+
+        setFormData(updated);
+
+        if (onChange) {
+            onChange({
+                [criteriaId]: updated[criteriaId]
+            });
+        }
     };
-    setFormData(updated);
-    if (onChange && !readOnly) {
-      onChange(updated);
-    }
-  };
 
-  return (
+    return (
       <div className="mt-6">
         <div className="flex justify-between mb-4">
           <div className="text-sm font-medium">
@@ -53,49 +57,43 @@ export default function EvaluationForm({
             <div className="text-gray-600">Performance Rating 1-5</div>
           </div>
         </div>
-
-        {criteria.map((item) => {
-          const itemError = {};
-          return (
+          {criteria.map((item) => (
               <div key={item.id} className="mb-8">
-                <div className="mb-2 font-medium">{item.title}</div>
-                <div className="text-sm mb-1">យោបល់/Comments & feedback:</div>
-                <div className="flex gap-4">
-                  <div className="flex-grow">
-                <textarea
-                    className={`w-full border ${itemError?.feedback ? 'border-red-500' : 'border-gray-300'} rounded p-2`}
-                    rows="2"
-                    placeholder="Write feedback here..."
-                    value={formData[item.id]?.feedback || ''}
-                    onChange={e => handleInputChange(item.id, 'feedback', e.target.value)}
-                    disabled={readOnly}
-                />
-                    {itemError?.feedback && (
-                        <p className="text-red-500 text-xs mt-1">{itemError.feedback}</p>
-                    )}
+                  <div className="mb-2 font-medium">{item.title}</div>
+                  <div className="text-sm mb-1">យោបល់/Comments & feedback:</div>
+                  <div className="flex gap-4">
+                      <div className="flex-grow">
+              <textarea
+                  className={`w-full border border-gray-300 rounded p-2 ${
+                      readOnly ? 'bg-gray-100 cursor-not-allowed' : ''
+                  }`}
+                  rows="2"
+                  placeholder={readOnly ? "" : "Write feedback here..."}
+                  value={formData[item.id]?.feedback || ''}
+                  onChange={(e) => handleInputChange(item.id, 'feedback', e.target.value)}
+                  readOnly={readOnly}
+              />
+                      </div>
+                      <div className="w-32">
+                          <select
+                              className={`w-full border border-gray-300 rounded p-2 text-sm h-10 ${
+                                  readOnly ? 'bg-gray-100 cursor-not-allowed' : ''
+                              }`}
+                              value={formData[item.id]?.rating || ''}
+                              onChange={(e) => handleInputChange(item.id, 'rating', e.target.value)}
+                              disabled={readOnly}
+                          >
+                              <option value="">Select</option>
+                              {[1, 2, 3, 4, 5].map((num) => (
+                                  <option key={num} value={num}>
+                                      {num}
+                                  </option>
+                              ))}
+                          </select>
+                      </div>
                   </div>
-                  <div className="w-32">
-                    <select
-                        className={`w-full border ${itemError?.rating ? 'border-red-500' : 'border-gray-300'} rounded p-2 text-sm h-10`}
-                        value={formData[item.id]?.rating || ''}
-                        onChange={e => handleInputChange(item.id, 'rating', e.target.value)}
-                        disabled={readOnly}
-                    >
-                      <option value="">Select</option>
-                      {[1, 2, 3, 4, 5].map((num) => (
-                          <option key={num} value={num}>
-                            {num}
-                          </option>
-                      ))}
-                    </select>
-                    {itemError?.rating && (
-                        <p className="text-red-500 text-xs mt-1">{itemError.rating}</p>
-                    )}
-                  </div>
-                </div>
               </div>
-          );
-        })}
-      </div>
-  );
+          ))}
+        </div>
+    );
 }
