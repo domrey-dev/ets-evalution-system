@@ -54,11 +54,18 @@ class EvaluationController extends Controller
     public function show(string $id)
     {
         $evaluation = Evaluations::query()
-            ->with(['createdBy', 'updatedBy'])
+            ->with(['createdBy', 'updatedBy', 'evaluationResult'])
             ->findOrFail($id);
+
+        $total_responses = $evaluation->evaluationResult->count();
+
+        logger($total_responses);
 
         return Inertia::render('Evaluation/Show', [
             'evaluation' => new EvaluationResource($evaluation),
+            'statistics' => [
+                'total_responses' => $total_responses,
+            ],
         ]);
     }
 

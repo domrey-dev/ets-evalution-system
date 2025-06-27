@@ -12,7 +12,7 @@ import {
   DocumentTextIcon
 } from "@heroicons/react/24/outline";
 
-export default function Show({ auth, evaluation: evaluationData }) {
+export default function Show({ auth, evaluation: evaluationData, statistics }) {
   const evaluation = evaluationData.data
   return (
     <AuthenticatedLayout
@@ -89,7 +89,7 @@ export default function Show({ auth, evaluation: evaluationData }) {
                         <div className="flex items-center justify-center mb-2">
                           <ChartBarIcon className="w-5 h-5 text-blue-600" />
                         </div>
-                        <div className="text-2xl font-bold text-gray-900">0</div>
+                        <div className="text-2xl font-bold text-gray-900">{statistics.total_responses}</div>
                         <div className="text-sm text-gray-600">Total Responses</div>
                       </div>
                       <div className="bg-gray-50 rounded-lg p-4 text-center">
@@ -103,7 +103,7 @@ export default function Show({ auth, evaluation: evaluationData }) {
                         <div className="flex items-center justify-center mb-2">
                           <DocumentTextIcon className="w-5 h-5 text-purple-600" />
                         </div>
-                        <div className="text-2xl font-bold text-gray-900">0</div>
+                        <div className="text-2xl font-bold text-gray-900">1</div>
                         <div className="text-sm text-gray-600">Questions</div>
                       </div>
                     </div>

@@ -27,8 +27,8 @@ class Evaluations extends Model
         return $this->hasMany(EvaluationSelf::class);
     }
 
-    public function evaluationResult(): HasMany
+    public function evaluationResult()
     {
-        return $this->hasMany(EvaluationResult::class);
+        return $this->hasMany(EvaluationResult::class, 'evaluation_id');
     }
 }
