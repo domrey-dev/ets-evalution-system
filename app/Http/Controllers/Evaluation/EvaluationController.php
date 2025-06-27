@@ -15,10 +15,13 @@ class EvaluationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $evaluations = Evaluations::with(['createdBy', 'updatedBy', 'evaluationResult'])
-            //with the evaluationResult relationship to get the count of responses
+            //search
+            ->when($request->input('search'), function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->input('search') . '%');
+            })
             ->orderBy('created_at', 'desc')
             ->get();
         return Inertia::render('Evaluation/Index', [
