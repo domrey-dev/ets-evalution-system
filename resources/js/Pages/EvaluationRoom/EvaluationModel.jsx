@@ -6,6 +6,10 @@ export default function EvaluationModel({ onChange = () => {}, initialData = {},
   const debouncedSearchId = useDebounce(searchId, 500);
 
   useEffect(() => {
+    setSearchId(initialData.searchId || '');
+  }, [initialData.searchId]);
+
+  useEffect(() => {
     if (debouncedSearchId && debouncedSearchId !== initialData.searchId) {
       onSearch(debouncedSearchId);
     }
@@ -21,7 +25,7 @@ export default function EvaluationModel({ onChange = () => {}, initialData = {},
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === 'Enter' && searchId && searchId !== initialData.searchId) {
+    if (e.key === 'Enter' && searchId) {
       onSearch(searchId);
     }
   };

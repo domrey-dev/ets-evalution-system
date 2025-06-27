@@ -106,17 +106,18 @@ class EvaluationRoomController extends Controller
                 'monthly_performance' => $validated['model_data']['monthlyPerformance'],
                 'evaluation_date' => $validated['model_data']['evaluationDate'],
                 'evaluation_type' => $validated['evaluation_type'],
-                'user_id' => $validated['model_data']['searchId'], // Assuming this is user ID
+                'user_id' => $validated['model_data']['searchId'],
                 'created_by' => auth()->id(),
                 'updated_by' => auth()->id(),
             ]);
 
-            foreach ($validated['evaluation'] as $evaluationId => $evaluationData) {
+            // Handle child evaluations from the payload
+            foreach ($validated['evaluation']['child_evaluations'] as $childEvaluation) {
                 EvaluationResult::create([
                     'parent_evaluation_id' => $parentEvaluation->id,
-                    'evaluation_id' => $evaluationId, // The ID from your criteria (2, 3)
-                    'feedback' => $evaluationData['feedback'],
-                    'rating' => $evaluationData['rating'],
+                    'evaluation_id' => $childEvaluation['evaluation_id'],
+                    'feedback' => $childEvaluation['feedback'],
+                    'rating' => $childEvaluation['rating'],
                     'evaluation_type' => $validated['evaluation_type'],
                     'user_id' => $validated['model_data']['searchId'],
                     'created_by' => auth()->id(),
@@ -126,7 +127,7 @@ class EvaluationRoomController extends Controller
 
             DB::commit();
 
-            return redirect()->route('evaluations_room.index')
+            return redirect()->route('dashboard')
                 ->with('success', 'Evaluation created successfully.');
 
         } catch (\Exception $e) {
