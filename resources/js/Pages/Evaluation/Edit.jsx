@@ -13,7 +13,10 @@ import {
   PencilIcon
 } from "@heroicons/react/24/outline";
 
-export default function Edit({ auth, evaluation }) {
+export default function Edit({ auth, evaluation: evaluationData }) {
+  // Destructure the nested data
+  const evaluation = evaluationData.data || {};
+
   const { data, setData, put, errors, processing } = useForm({
     title: evaluation.title || "",
   });
@@ -175,7 +178,7 @@ export default function Edit({ auth, evaluation }) {
               </div>
               
               <div className="flex items-center space-x-3">
-                <SecondaryButton asChild>
+                <SecondaryButton>
                   <Link href={route("evaluations.show", evaluation.id)}>
                     Cancel
                   </Link>

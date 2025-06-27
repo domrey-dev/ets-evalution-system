@@ -1,11 +1,9 @@
 import { usePage, router } from "@inertiajs/react";
 import { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import { Head } from "@inertiajs/react";
 
-export default function RoleIndex() {
-    const { roles = [], flash, can } = usePage().props;
-    const message = flash?.success;
-
+export default function RoleIndex({ auth, roles, flash }) {
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [roleToDelete, setRoleToDelete] = useState(null);
 
@@ -20,12 +18,25 @@ export default function RoleIndex() {
         setRoleToDelete(null);
     };
 
+    const hasPermission = (permission) => {
+        return auth.can ? auth.can[permission] === true : false;
+    };
+
     return (
-        <AuthenticatedLayout>
-            {message && (
+        <AuthenticatedLayout
+            auth={auth}
+            header={
+                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
+                    Roles Management
+                </h2>
+            }
+        >
+            <Head title="Roles" />
+
+            {flash?.success && (
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mb-4">
                     <div className="rounded-md bg-green-100 border border-green-200 p-4 text-green-800 text-sm">
-                        {message}
+                        {flash.success}
                     </div>
                 </div>
             )}
@@ -35,62 +46,46 @@ export default function RoleIndex() {
                     <div className="bg-white shadow rounded-lg overflow-hidden">
                         {/* Header */}
                         <div className="px-6 py-4 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
-                            <h3 className="text-xl font-semibold text-gray-900">Roles Management</h3>
-                            <button
-                                onClick={() => router.get(route("roles.create"))}
-                                className="inline-flex items-center px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-medium rounded-md transition"
-                            >
-                                Create New Role
-                            </button>
+                            <h3 className="text-xl font-semibold text-gray-900">Roles List</h3>
                         </div>
 
                         {/* Table */}
                         <div className="p-4 overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200 text-sm text-gray-700">
                                 <thead className="bg-gray-50">
-                                    <tr>
-                                        <th className="px-6 py-3 text-left font-semibold text-gray-600 uppercase tracking-wide">No</th>
-                                        <th className="px-6 py-3 text-left font-semibold text-gray-600 uppercase tracking-wide">Name</th>
-                                        <th className="px-6 py-3 text-center font-semibold text-gray-600 uppercase tracking-wide">Actions</th>
-                                    </tr>
+                                <tr>
+                                    <th className="px-6 py-3 text-left font-semibold text-gray-600 uppercase tracking-wide">No</th>
+                                    <th className="px-6 py-3 text-left font-semibold text-gray-600 uppercase tracking-wide">Name</th>
+                                    <th className="px-6 py-3 text-center font-semibold text-gray-600 uppercase tracking-wide">Actions</th>
+                                </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-100">
-                                    {roles.length ? (
-                                        roles.map((role, index) => (
-                                            <tr key={role.id}>
-                                                <td className="px-6 py-4 align-middle">{index + 1}</td>
-                                                <td className="px-6 py-4 align-middle font-medium">{role.name}</td>
-                                                <td className="px-6 py-4 text-right align-middle">
-                                                    <div className="flex justify-center space-x-2">
+                                {roles.length ? (
+                                    roles.map((role, index) => (
+                                        <tr key={role.id}>
+                                            <td className="px-6 py-4 align-middle">{index + 1}</td>
+                                            <td className="px-6 py-4 align-middle font-medium">{role.name}</td>
+                                            <td className="px-6 py-4 text-right align-middle">
+                                                <div className="flex justify-center space-x-2">
+                                                    {hasPermission('role-list') && (
                                                         <button
                                                             onClick={() => router.get(route("roles.show", role.id))}
                                                             className="px-3 py-1 border text-gray-700 bg-gray-100 rounded hover:bg-gray-200"
                                                         >
-                                                            Show
+                                                            Show Permissions
                                                         </button>
-                                                        <button
-                                                            onClick={() => router.get(route("roles.edit", role.id))}
-                                                            className="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700"
-                                                        >
-                                                            Edit
-                                                        </button>
-                                                        <button
-                                                            onClick={() => openDeleteModal(role)}
-                                                            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                                                        >
-                                                            Delete
-                                                        </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        ))
-                                    ) : (
-                                        <tr>
-                                            <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
-                                                No roles found.
+                                                    )}
+                                                </div>
                                             </td>
                                         </tr>
-                                    )}
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={3} className="px-6 py-4 text-center text-gray-500">
+                                            No roles found.
+                                        </td>
+                                    </tr>
+                                )}
                                 </tbody>
                             </table>
                         </div>
@@ -105,7 +100,7 @@ export default function RoleIndex() {
                         <div className="px-6 py-4">
                             <h3 className="text-lg font-semibold text-gray-900">Delete Role</h3>
                             <p className="mt-2 text-sm text-gray-600">
-                                Are you sure you want to delete <strong>{roleToDelete.name}</strong>? This action cannot be undone.
+                                Are you sure you want to delete <strong>{roleToDelete?.name}</strong>? This action cannot be undone.
                             </p>
                         </div>
                         <div className="px-6 py-4 bg-gray-50 flex justify-end space-x-2">

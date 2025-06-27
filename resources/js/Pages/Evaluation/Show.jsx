@@ -12,7 +12,8 @@ import {
   DocumentTextIcon
 } from "@heroicons/react/24/outline";
 
-export default function Show({ auth, evaluation }) {
+export default function Show({ auth, evaluation: evaluationData }) {
+  const evaluation = evaluationData.data
   return (
     <AuthenticatedLayout
         auth={auth}

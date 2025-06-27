@@ -17,8 +17,12 @@ class EvaluationController extends Controller
      */
     public function index()
     {
+        $evaluations = Evaluations::with(['createdBy', 'updatedBy'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return Inertia::render('Evaluation/Index', [
-            'evaluations' => Evaluations::all(),
+            'evaluations' => EvaluationResource::collection($evaluations),
         ]);
     }
 
@@ -49,28 +53,43 @@ class EvaluationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $evaluation = Evaluations::query()
+            ->with(['createdBy', 'updatedBy'])
+            ->findOrFail($id);
+
+        return Inertia::render('Evaluation/Show', [
+            'evaluation' => new EvaluationResource($evaluation),
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Evaluations $evaluations)
+    public function edit($evaluation)
     {
-        return Inertia::render('Department/Edit', [
-            'evaluations' => $evaluations,
+        $evaluation = Evaluations::query()
+            ->with(['createdBy', 'updatedBy'])
+            ->findOrFail($evaluation);
+
+        $evaluation = new EvaluationResource($evaluation);
+        return Inertia::render('Evaluation/Edit', [
+            'evaluation' => $evaluation,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Evaluations $evaluations)
+    public function update(Request $request, $evaluations)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
 
         ]);
+
+        $evaluations = Evaluations::query()
+            ->with(['createdBy', 'updatedBy'])
+            ->findOrFail($evaluations);
 
         $evaluations->update($validated);
 
@@ -82,6 +101,10 @@ class EvaluationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $evaluation = Evaluations::findOrFail($id);
+
+        $evaluation->delete();
+
+        return redirect()->route('evaluations.index')->with('success', 'Evaluation deleted successfully.');
     }
 }
