@@ -21,12 +21,14 @@ fi
 # php artisan key:generate --force
 
 # If not, generate it. This is crucial for Laravel's security features.
-if grep -qE '^APP_KEY=\s*$' .env || ! grep -q '^APP_KEY=' .env; then
-    echo "Generating application key..."
-    php artisan key:generate
-else
-    echo "Application key already exists."
-fi
+# if grep -qE '^APP_KEY=\s*$' .env || ! grep -q '^APP_KEY=' .env; then
+#     echo "Generating application key..."
+#     php artisan key:generate
+# else
+#     echo "Application key already exists."
+# fi
+
+php artisan key:generate
 
 # Check if node_modules directory exists and run npm install if not
 if [ ! -d "node_modules" ]; then
