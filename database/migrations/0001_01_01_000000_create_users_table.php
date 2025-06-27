@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('department')->nullable();
+            $table->string('department_id')->nullable();
             $table->string('phone')->nullable();
             $table->string('role')->default('user');
-            $table->string('position')->nullable();
+            $table->string('position_id')->nullable();
             $table->enum('work_contract', ['Permanent', 'Project-based', 'Internship', 'Subcontract'])->default('Permanent');
             $table->enum('gender', ['Male', 'Female'])->default('Male');
-            $table->string('project')->nullable();
+            $table->string('project_id')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

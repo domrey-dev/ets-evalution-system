@@ -138,7 +138,7 @@ export default function Index({ auth, success, evaluations, queryParams = null }
           </div>
 
           {/* Content */}
-          {evaluations && evaluations.length > 0 ? (
+          {evaluations.data && evaluations.data.length > 0 ? (
             /* Table View */
             <Card>
               <div className="overflow-x-auto">
@@ -169,7 +169,7 @@ export default function Index({ auth, success, evaluations, queryParams = null }
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {evaluations.map((evaluation) => (
+                    {evaluations.data.map((evaluation) => (
                       <tr key={evaluation.id} className="hover:bg-gray-50">
                         <td className="px-2 sm:px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm font-medium text-gray-900">
                           {evaluation.id}
@@ -182,7 +182,7 @@ export default function Index({ auth, success, evaluations, queryParams = null }
                         <td className="px-2 sm:px-4 py-3 sm:py-4 whitespace-nowrap">
                           <div className="flex items-center">
                             <ChartBarIcon className="w-3 h-3 sm:w-4 sm:h-4 text-gray-400 mr-1 sm:mr-2" />
-                            <span className="text-xs sm:text-sm text-gray-900">0</span>
+                            <span className="text-xs sm:text-sm text-gray-900"> {evaluation.total_responses || 0}</span>
                           </div>
                         </td>
                         <td className="px-2 sm:px-4 py-3 sm:py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">

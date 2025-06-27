@@ -38,42 +38,41 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
         });
     });
-
     // Users routes with permissions
-    Route::prefix('users')->group(function () {
+    Route::prefix('user')->group(function () {
         Route::middleware(['permission:user-list'])->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('users.index');
-            Route::get('/{user}', [UserController::class, 'show'])->name('users.show');
+            Route::get('/{user}', [UserController::class, 'show'])->name('user.show');
         });
 
         Route::middleware(['permission:user-create'])->group(function () {
-            Route::get('/create', [UserController::class, 'create'])->name('users.create');
-            Route::post('/', [UserController::class, 'store'])->name('users.store');
+            Route::get('/create', [UserController::class, 'create'])->name('user.create');
+            Route::post('/', [UserController::class, 'store'])->name('user.store');
         });
 
         Route::middleware(['permission:user-edit'])->group(function () {
-            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('users.edit');
-            Route::put('/{user}', [UserController::class, 'update'])->name('users.update');
+            Route::get('/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+            Route::put('/{user}', [UserController::class, 'update'])->name('user.update');
         });
 
         Route::middleware(['permission:user-delete'])->group(function () {
-            Route::delete('/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+            Route::delete('/{user}', [UserController::class, 'destroy'])->name('user.destroy');
         });
     });
-
+//    Route::resource('evaluations', EvaluationController::class);
     // Evaluation routes (accessible to department and user roles)
     Route::prefix('evaluations')->group(function () {
-        Route::middleware(['permission:evaluation'])->group(function () {
-            Route::get('/', [EvaluationController::class, 'index'])->name('evaluations.index');
-            Route::get('/{evaluation}', [EvaluationController::class, 'show'])->name('evaluations.show');
-        });
-
         Route::middleware(['permission:evaluation-form'])->group(function () {
+            Route::put('/{evaluation}', [EvaluationController::class, 'update'])->name('evaluations.update');
             Route::get('/create', [EvaluationController::class, 'create'])->name('evaluations.create');
             Route::post('/', [EvaluationController::class, 'store'])->name('evaluations.store');
             Route::get('/{evaluation}/edit', [EvaluationController::class, 'edit'])->name('evaluations.edit');
-            Route::put('/{evaluation}', [EvaluationController::class, 'update'])->name('evaluations.update');
             Route::delete('/{evaluation}', [EvaluationController::class, 'destroy'])->name('evaluations.destroy');
+        });
+
+        Route::middleware(['permission:evaluation'])->group(function () {
+            Route::get('/', [EvaluationController::class, 'index'])->name('evaluations.index');
+            Route::get('/{evaluation}', [EvaluationController::class, 'show'])->name('evaluations.show');
         });
     });
 

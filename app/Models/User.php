@@ -22,7 +22,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'email_verified_at'
+        'email_verified_at',
+        'department_id',
+        'phone',
+        'role',
+        'position_id',
+        'work_contract',
+        'gender',
+        'project_id'
     ];
 
     /**
@@ -45,6 +52,32 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'work_contract' => 'string',
+            'gender' => 'string',
         ];
+    }
+
+    /**
+     * Get the department that the user belongs to.
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    /**
+     * Get the position that the user holds.
+     */
+    public function position()
+    {
+        return $this->belongsTo(Position::class, 'position_id');
+    }
+
+    /**
+     * Get the project that the user is assigned to.
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id');
     }
 }

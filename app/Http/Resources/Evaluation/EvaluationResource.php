@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class EvaluationResource extends ResourceCollection
+class EvaluationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,8 +19,11 @@ class EvaluationResource extends ResourceCollection
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'total_responses' => $this->whenLoaded('evaluationResult') ? $this->evaluationResult->count() : 0,
             'createdBy' => new UserResource($this->createdBy),
             'updatedBy' => new UserResource($this->updatedBy),
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 }

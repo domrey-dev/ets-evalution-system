@@ -117,7 +117,7 @@ export default function Create({ auth }) {
               </div>
               
               <div className="flex items-center space-x-3">
-                <SecondaryButton asChild>
+                <SecondaryButton>
                   <Link href={route("evaluations.index")}>
                     Cancel
                   </Link>

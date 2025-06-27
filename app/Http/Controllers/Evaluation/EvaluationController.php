@@ -15,10 +15,17 @@ class EvaluationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $evaluations = Evaluations::with(['createdBy', 'updatedBy', 'evaluationResult'])
+            //search
+            ->when($request->input('search'), function ($query) use ($request) {
+                $query->where('title', 'like', '%' . $request->input('search') . '%');
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
         return Inertia::render('Evaluation/Index', [
-            'evaluations' => Evaluations::all(),
+            'evaluations' => EvaluationResource::collection($evaluations),
         ]);
     }
 
@@ -49,28 +56,50 @@ class EvaluationController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $evaluation = Evaluations::query()
+            ->with(['createdBy', 'updatedBy', 'evaluationResult'])
+            ->findOrFail($id);
+
+        $total_responses = $evaluation->evaluationResult->count();
+
+        logger($total_responses);
+
+        return Inertia::render('Evaluation/Show', [
+            'evaluation' => new EvaluationResource($evaluation),
+            'statistics' => [
+                'total_responses' => $total_responses,
+            ],
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Evaluations $evaluations)
+    public function edit($evaluation)
     {
-        return Inertia::render('Department/Edit', [
-            'evaluations' => $evaluations,
+        $evaluation = Evaluations::query()
+            ->with(['createdBy', 'updatedBy'])
+            ->findOrFail($evaluation);
+
+        $evaluation = new EvaluationResource($evaluation);
+        return Inertia::render('Evaluation/Edit', [
+            'evaluation' => $evaluation,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Evaluations $evaluations)
+    public function update(Request $request, $evaluations)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
 
         ]);
+
+        $evaluations = Evaluations::query()
+            ->with(['createdBy', 'updatedBy'])
+            ->findOrFail($evaluations);
 
         $evaluations->update($validated);
 
@@ -82,6 +111,10 @@ class EvaluationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $evaluation = Evaluations::findOrFail($id);
+
+        $evaluation->delete();
+
+        return redirect()->route('evaluations.index')->with('success', 'Evaluation deleted successfully.');
     }
 }
